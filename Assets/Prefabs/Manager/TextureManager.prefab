@@ -93,5 +93,5 @@ MonoBehaviour:
       Normal: {fileID: 2800000, guid: f38e2e0d3e25194428e2b41f32d7a1d0, type: 3}
       Circle: {fileID: 2800000, guid: 9d509bdb4592d6447a274e2a89c11dd2, type: 3}
   DefaultMat: {fileID: 2100000, guid: f2dbd2d6f6ea0cb4d9264ea30f87094a, type: 2}
-  LockMat: {fileID: 0}
-  WrongMat: {fileID: 0}
+  LockMat: {fileID: 2100000, guid: a5dc4e9b111a14a4e881d162e9cf7d7f, type: 2}
+  WrongMat: {fileID: 2100000, guid: 18c8f5e49295707409526d8fb52f77c9, type: 2}
