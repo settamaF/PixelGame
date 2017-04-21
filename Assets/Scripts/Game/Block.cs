@@ -12,8 +12,6 @@ public class Block : MonoBehaviour
 {
 #region Script Parameters
 	public GameObject					CubePrefab;
-	[Header("Temporary")]
-	public float						SpeedRotation;
 #endregion
 
 #region Properties
@@ -29,9 +27,19 @@ public class Block : MonoBehaviour
 	private Dictionary<Vector2, float>	mLefttValidCube;
 	private Dictionary<Vector2, float>	mTopValidCube;
 	private Vector3						mGlobalPosition;
+	private GameObject					mModel;
+
+	//temporary
+	private bool						mInitialized = false;
+	private int							mNumberValidCube;
+	private int							mCurrentNumberCube;
 #endregion
 
 #region Unity Methods
+	void Awake()
+	{
+		mInitialized = false;
+	}
 	void Start () 
 	{
 		Init(4);
@@ -58,11 +66,15 @@ public class Block : MonoBehaviour
 				}
 			}
 		}
+		mCurrentNumberCube = mCubes.Length;
+		mNumberValidCube = GameData.Get.Data.Tabouret.Length;
 		SetCenterBlock();
 		CenterCamera();
 		SetValidCube(GameData.Get.Data.Tabouret);
+		mModel = GameData.Get.TabouretModel;
 		CountAllValidCube();
 		SetNumberOnFace();
+		mInitialized = true;
 	}
 
 	public void DisableAllCube()
@@ -79,6 +91,15 @@ public class Block : MonoBehaviour
 		}
 	}
 
+	public void DestroyObj(GameObject obj)
+	{
+		var cube = obj.GetComponent<Cube>();
+		if(cube)
+		{
+			DestroyCube(cube.Position);
+		}
+	}
+
 	public void DestroyCube(Vector3 position)
 	{
 		int x = (int)position.x;
@@ -91,6 +112,7 @@ public class Block : MonoBehaviour
 			return;
 		}
 		cube.SetState(Cube.EState.Disable);
+		mCurrentNumberCube--;
 		//Front cube
 		if(z - 1 >= 0)
 		{
@@ -138,6 +160,20 @@ public class Block : MonoBehaviour
 	public void LockCube()
 	{
 
+	}
+
+	public bool IsCompleted()
+	{
+		if(mCurrentNumberCube == mNumberValidCube && mInitialized)
+		{
+			foreach(Transform child in transform)
+			{
+				Destroy(child.gameObject);
+			}
+			Instantiate<GameObject>(mModel, transform);
+			return true;
+		}
+		return false;
 	}
 #endregion
 

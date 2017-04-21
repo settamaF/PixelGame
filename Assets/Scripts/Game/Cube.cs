@@ -160,44 +160,44 @@ public class Cube : MonoBehaviour
 	}
 #endregion
 
-#region Debug
-	Vector3 screenPoint;
-	Vector3 offset;
-	bool move;
-	/* move cube */
-	void OnMouseDown()
-	{
-		screenPoint = Camera.main.WorldToScreenPoint(transform.position);
+//#region Debug
+//	Vector3 screenPoint;
+//	Vector3 offset;
+//	bool move;
+//	/* move cube */
+//	void OnMouseDown()
+//	{
+//		screenPoint = Camera.main.WorldToScreenPoint(transform.position);
 
-		offset = transform.position - Camera.main.ScreenToWorldPoint(
-			new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-		move = false;
-	}
+//		offset = transform.position - Camera.main.ScreenToWorldPoint(
+//			new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+//		move = false;
+//	}
 
-	void OnMouseDrag()
-	{
-		Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
+//	void OnMouseDrag()
+//	{
+//		Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 
-		Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-		//move Cube
-		//transform.position = curPosition;
+//		Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+//		//move Cube
+//		//transform.position = curPosition;
 
-		//Rotate Block
-		Vector3 curDirection = curScreenPoint - screenPoint;
-		if(Mathf.Abs(curDirection.x) > 50 || Mathf.Abs(curDirection.y) > 50)
-		{
-			Parent.transform.Rotate(Vector3.up, -curDirection.x * Parent.SpeedRotation * Mathf.Deg2Rad, Space.World);
-			Parent.transform.Rotate(Vector3.right, curDirection.y * Parent.SpeedRotation * Mathf.Deg2Rad, Space.World);
-			move = true;
-		}
-		
-	}
+//		//Rotate Block
+//		Vector3 curDirection = curScreenPoint - screenPoint;
+//		if(Mathf.Abs(curDirection.x) > 50 || Mathf.Abs(curDirection.y) > 50)
+//		{
+//			Parent.transform.Rotate(Vector3.up, -curDirection.x * 1 * Mathf.Deg2Rad, Space.World);
+//			Parent.transform.Rotate(Vector3.right, curDirection.y * 1 * Mathf.Deg2Rad, Space.World);
+//			move = true;
+//		}
+	
+//	}
 
-	/* Destroy cube */
-	void OnMouseUp()
-	{
-		if(!move)
-			Parent.DestroyCube(Position);
-	}
-	#endregion
+//	/* Destroy cube */
+//	void OnMouseUp()
+//	{
+//		if(!move)
+//			Parent.DestroyCube(Position);
+//	}
+//#endregion
 }

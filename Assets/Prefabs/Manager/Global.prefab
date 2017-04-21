@@ -93,7 +93,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &400002
 Transform:
@@ -105,6 +105,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4526123744017588}
   - {fileID: 437022}
   - {fileID: 400000}
   - {fileID: 462774}
@@ -123,7 +124,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &437022
 Transform:
@@ -136,7 +137,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &462774
 Transform:
@@ -149,7 +150,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -176,6 +177,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
     Tabouret: []
+  TabouretModel: {fileID: 1180472799407012, guid: 04d272724333e0147b1ede846014705e,
+    type: 2}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,6 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc130ae53a5b4eb4d9f739052e2dd252, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainBlock: {fileID: 1896212096664114, guid: f3880795949726842a3c7c822e6d560c, type: 2}
 --- !u!114 &11438914
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -209,6 +213,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2274d535eeab38d4e843f3cd949f6ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Block: {fileID: 0}
+  Camera: {fileID: 0}
+  ZoomSpeed: 0.05
+  CameraMinPos: -4
+  CameraMaxPos: -20
+  UseFov: 0
+  MinFov: 50
+  MaxFov: 70
+  SpeedRotation: 220
+  UnityRemote: 1
 --- !u!114 &11467256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -250,3 +264,87 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100002}
   m_IsPrefabParent: 1
+--- !u!1 &1226727254541250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4526123744017588}
+  - component: {fileID: 114332935756108934}
+  m_Layer: 0
+  m_Name: TextureManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4526123744017588
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1226727254541250}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400002}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114332935756108934
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1226727254541250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c1358cb1d180f742a06b5a15065253b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumberTextures:
+  - Key: 0
+    Value:
+      Normal: {fileID: 2800000, guid: 0c1a932532f02cb468db30032cf9c0eb, type: 3}
+      Circle: {fileID: 0}
+  - Key: 1
+    Value:
+      Normal: {fileID: 2800000, guid: 86cd02dab1d4bd041b80410bc43d1ada, type: 3}
+      Circle: {fileID: 2800000, guid: d741b7b0580529641a21d2e70ab463a8, type: 3}
+  - Key: 2
+    Value:
+      Normal: {fileID: 2800000, guid: 7dab9bab0d554b24a836df5c796a06b5, type: 3}
+      Circle: {fileID: 2800000, guid: c16feb567e433c64b9584d798b256ab4, type: 3}
+  - Key: 3
+    Value:
+      Normal: {fileID: 2800000, guid: d6c4b678839de2b4699a41b10f02e740, type: 3}
+      Circle: {fileID: 2800000, guid: 5395e7949ce5690489bed22c49234a8d, type: 3}
+  - Key: 4
+    Value:
+      Normal: {fileID: 2800000, guid: a8b474c3fbbdee54aab0d3c07dd22839, type: 3}
+      Circle: {fileID: 2800000, guid: 5a9af026d6c88c14aa3031411303f73a, type: 3}
+  - Key: 5
+    Value:
+      Normal: {fileID: 2800000, guid: a8d200ae08f521e45904685eff600004, type: 3}
+      Circle: {fileID: 2800000, guid: e2ce3f222b2ffcf44b07fbb7b3c67c65, type: 3}
+  - Key: 6
+    Value:
+      Normal: {fileID: 2800000, guid: 1151f129736f7514d98db7ea51757ebd, type: 3}
+      Circle: {fileID: 2800000, guid: 72e9d246bf8f18e47934f1f37d14555f, type: 3}
+  - Key: 7
+    Value:
+      Normal: {fileID: 2800000, guid: 6768a37bb5f6771409d202a7340a80d1, type: 3}
+      Circle: {fileID: 2800000, guid: 80c38e5ab3c1b634eba50861a136b57f, type: 3}
+  - Key: 8
+    Value:
+      Normal: {fileID: 2800000, guid: 6a2058460dd2e7242aad280c76635649, type: 3}
+      Circle: {fileID: 2800000, guid: 15a1f6af6da719e46a5603184af33087, type: 3}
+  - Key: 9
+    Value:
+      Normal: {fileID: 2800000, guid: f38e2e0d3e25194428e2b41f32d7a1d0, type: 3}
+      Circle: {fileID: 2800000, guid: 9d509bdb4592d6447a274e2a89c11dd2, type: 3}
+  DefaultMat: {fileID: 2100000, guid: f2dbd2d6f6ea0cb4d9264ea30f87094a, type: 2}
+  LockMat: {fileID: 2100000, guid: a5dc4e9b111a14a4e881d162e9cf7d7f, type: 2}
+  WrongMat: {fileID: 2100000, guid: 18c8f5e49295707409526d8fb52f77c9, type: 2}

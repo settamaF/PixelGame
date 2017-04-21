@@ -24,6 +24,8 @@ public class GameData : MonoBehaviour
 #region Fields
 	// Public ------------------------------------------------------------------
 	public SaveData		Data;
+	// Temporary
+	public GameObject	TabouretModel;
 #endregion
 
 #region Unity Methods
@@ -56,7 +58,8 @@ public class GameData : MonoBehaviour
 		}
 		else
 		{
-			Data = new SaveData();
+			var textAsset = Resources.Load("DefaultData") as TextAsset;
+			Data = Serialization.FromString<SaveData>(textAsset.text);
 		}
 	}
 

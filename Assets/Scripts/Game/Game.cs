@@ -11,7 +11,7 @@ public class Game : MonoBehaviour
 {
 
 #region Script Parameters
-
+	public GameObject   MainBlock;
 #endregion
 
 #region Script Debug Parameters
@@ -23,7 +23,7 @@ public class Game : MonoBehaviour
 #endregion
 
 #region Fields
-	// const
+	// Const -------------------------------------------------------------------
 
 
 	// static
@@ -32,6 +32,7 @@ public class Game : MonoBehaviour
 
 	//private
 	private bool mPause = false;
+	private GameObject  mCurrentBlock = null;
 #endregion
 	
 #region Unity Methods
@@ -45,6 +46,7 @@ public class Game : MonoBehaviour
 	{
 		if (mPause)
 			return;
+		CheckVictory();
 	}
 #endregion
 
@@ -52,9 +54,13 @@ public class Game : MonoBehaviour
 
 	public void StartGame()
 	{
+		if(mCurrentBlock)
+			Destroy(mCurrentBlock);
 		mPause = false;
 		InputManager.Get.enabled = true;
 		this.enabled = true;
+		mCurrentBlock = Instantiate<GameObject>(MainBlock, Vector3.zero, Quaternion.identity);
+		InputManager.Get.Block = mCurrentBlock.GetComponent<Block>();
 	}
 
 	public void PauseGame(bool value)
@@ -70,6 +76,11 @@ public class Game : MonoBehaviour
 
 	public void CloseGame()
 	{
+		if(mCurrentBlock)
+		{
+			Destroy(mCurrentBlock);
+			mCurrentBlock = null;
+		}
 		InputManager.Get.enabled = false;
 		this.enabled = false;
 	}
@@ -79,12 +90,18 @@ public class Game : MonoBehaviour
 
 	bool CheckVictory()
 	{
+		if(mCurrentBlock.GetComponent<Block>().IsCompleted())
+		{
+			Victory();
+			return true;
+		}
 		return false;
 	}
 
 	void Victory()
 	{
 		MenuManager.Get.ShowVictory();
+		this.enabled = false;
 		InputManager.Get.enabled = false;
 	}
 

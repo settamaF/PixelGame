@@ -117,6 +117,8 @@ public class MenuManager : MonoBehaviour
 
 		if (menu == null)
 			return;
+		if(Hud)
+			ShowHUD(false);
 		menu.Object.SetActive(true);
 		mActualMenu = menu;
 	}
