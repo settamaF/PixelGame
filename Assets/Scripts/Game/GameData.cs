@@ -13,7 +13,17 @@ public class GameData : MonoBehaviour
 	[System.Serializable]
 	public class SaveData
 	{
-		public Vector3[]	Tabouret;
+		public int[]		ModelIdCompleted;
+	}
+
+	[System.Serializable]
+	public class ModelData
+	{
+		public int			Id;
+		public string		Name;
+		public GameObject	Prefab;
+		public int			Size;
+		public Vector3[]	ValidCube;
 	}
 
 #region Static
@@ -23,9 +33,8 @@ public class GameData : MonoBehaviour
 
 #region Fields
 	// Public ------------------------------------------------------------------
-	public SaveData		Data;
-	// Temporary
-	public GameObject	TabouretModel;
+	public SaveData		PlayerData;
+	public List<ModelData>	ModelsData;
 #endregion
 
 #region Unity Methods
@@ -39,34 +48,54 @@ public class GameData : MonoBehaviour
 		
 		DontDestroyOnLoad (this);
 		mInstance = this;
-		Load();
+		LoadPlayerData();
+		//if(ModelsData == null || ModelsData.Count == 0)
+		//	LoadModels();
 	}
 
 	void OnApplicationQuit()
 	{
-		Save();
+		SavePlayerData();
 	}
 #endregion
 
 #region Methods
-	public void Load()
+	public void LoadPlayerData()
 	{
 		var dataPath = Path.Combine(Application.persistentDataPath, "SaveData.xml");
 		if(File.Exists(dataPath))
 		{
-			Data = Serialization.FromFile<SaveData>(dataPath);
+			PlayerData = Serialization.FromFile<SaveData>(dataPath);
 		}
 		else
 		{
-			var textAsset = Resources.Load("DefaultData") as TextAsset;
-			Data = Serialization.FromString<SaveData>(textAsset.text);
+			PlayerData = new SaveData();
 		}
 	}
 
-	public void Save()
+	public void SavePlayerData()
 	{
 		var dataPath = Path.Combine(Application.persistentDataPath, "SaveData.xml");
-		Serialization.ToFile<SaveData>(Data, dataPath);
+		Serialization.ToFile<SaveData>(PlayerData, dataPath);
 	}
+#endregion
+
+#region Implementation
+	/*void LoadModels()
+	{
+		var textAsset = Resources.Load("DefaultData") as TextAsset;
+		ModelsData = Serialization.FromString<List<ModelData>>(textAsset.text);
+	}
+
+	void NewFile()
+	{
+		ModelsData = new List<ModelData>();
+	}
+
+	void SaveNewFile()
+	{
+		var dataPath = Path.Combine(Application.persistentDataPath, "TestData.xml");
+		Serialization.ToFile<List<ModelData>>(ModelsData, dataPath);
+	}*/
 #endregion
 }

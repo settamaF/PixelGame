@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4754716193596868}
   - component: {fileID: 114139133531635248}
   m_Layer: 0
-  m_Name: tabouret
+  m_Name: Tabouret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

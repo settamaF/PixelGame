@@ -40,22 +40,19 @@ public class Block : MonoBehaviour
 	{
 		mInitialized = false;
 	}
-	void Start () 
-	{
-		Init(4);
-	}
+	
 #endregion
 
 #region Methods
-	public void Init(int size)
+	public void Init(GameData.ModelData model)
 	{
 		mGlobalPosition = Vector3.zero;
-		mCubes = new Cube[size, size, size];
+		mCubes = new Cube[model.Size, model.Size, model.Size];
 		mFrontValidCube = new Dictionary<Vector2, float>();
 		mLefttValidCube = new Dictionary<Vector2, float>();
 		mTopValidCube = new Dictionary<Vector2, float>();
 		mCubeSize = CubePrefab.GetComponent<Renderer>().bounds.size;
-		mMaxSize = size;
+		mMaxSize = model.Size;
 		for(int z = 0; z < mMaxSize; z++)
 		{
 			for(int x = 0; x < mMaxSize; x++)
@@ -67,11 +64,11 @@ public class Block : MonoBehaviour
 			}
 		}
 		mCurrentNumberCube = mCubes.Length;
-		mNumberValidCube = GameData.Get.Data.Tabouret.Length;
+		mNumberValidCube = model.ValidCube.Length;
 		SetCenterBlock();
 		CenterCamera();
-		SetValidCube(GameData.Get.Data.Tabouret);
-		mModel = GameData.Get.TabouretModel;
+		SetValidCube(model.ValidCube);
+		mModel = model.Prefab;
 		CountAllValidCube();
 		SetNumberOnFace();
 		mInitialized = true;
@@ -91,24 +88,18 @@ public class Block : MonoBehaviour
 		}
 	}
 
-	public void DestroyObj(GameObject obj)
-	{
-		var cube = obj.GetComponent<Cube>();
-		if(cube)
-		{
-			DestroyCube(cube.Position);
-		}
-	}
-
 	public void DestroyCube(Vector3 position)
 	{
 		int x = (int)position.x;
 		int y = (int)position.y;
 		int z = (int)position.z;
 		var cube = mCubes[x, y , z];
+		if(cube.State == Cube.EState.Lock || cube.State == Cube.EState.LockWithError)
+			return;
 		if(cube.Valid)
 		{
-			cube.SetState(Cube.EState.Lock);
+			cube.SetState(Cube.EState.LockWithError);
+			Game.Get.RemoveLife();
 			return;
 		}
 		cube.SetState(Cube.EState.Disable);
@@ -157,9 +148,20 @@ public class Block : MonoBehaviour
 		}
 	}
 
-	public void LockCube()
+	public void LockCube(Vector3 position)
 	{
-
+		int x = (int)position.x;
+		int y = (int)position.y;
+		int z = (int)position.z;
+		var cube = mCubes[x, y, z];
+		if(cube.State == Cube.EState.Lock)
+		{
+			cube.SetState(Cube.EState.Enable);
+		}
+		else
+		{
+			cube.SetState(Cube.EState.Lock);
+		}
 	}
 
 	public bool IsCompleted()
@@ -331,7 +333,9 @@ public class Block : MonoBehaviour
 		var pos = cam.transform.position;
 		pos.x = transform.position.x;
 		pos.y = transform.position.y;
+		pos.z = Game.DEFAULTPOSZCAMERA;
 		cam.transform.position = pos;
+		InputManager.Get.DefaultCameraPosition = pos;
 	}
 #endregion
 

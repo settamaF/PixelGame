@@ -26,6 +26,8 @@ public class Cube : MonoBehaviour
 		Enable,
 		Disable,
 		Lock,
+		LockWithError,
+		Selected,
 	}
 
 	[System.Serializable]
@@ -120,8 +122,14 @@ public class Cube : MonoBehaviour
 			case EState.Disable:
 				gameObject.SetActive(false);
 				break;
+			case EState.LockWithError:
+				GetComponent<Renderer>().material = texManager.WrongMat;
+				break;
 			case EState.Lock:
 				GetComponent<Renderer>().material = texManager.LockMat;
+				break;
+			case EState.Selected:
+				GetComponent<Renderer>().material = texManager.SelectedMat;
 				break;
 		}
 	}

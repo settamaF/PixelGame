@@ -4,7 +4,9 @@ using UnityEditor;
 
 namespace qtools
 {
-	public class QAlphabetNaturalSort: BaseHierarchySort 
+#pragma warning disable CS0618 // Le type ou le membre est obsolète
+	public class QAlphabetNaturalSort: BaseHierarchySort
+#pragma warning restore CS0618 // Le type ou le membre est obsolète
 	{
 		public override int Compare(GameObject lhs, GameObject rhs)
 		{ 

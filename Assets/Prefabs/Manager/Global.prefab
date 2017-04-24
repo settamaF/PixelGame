@@ -175,10 +175,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeefa0a8b70d84b159d13021524b719d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data:
-    Tabouret: []
-  TabouretModel: {fileID: 1180472799407012, guid: 04d272724333e0147b1ede846014705e,
-    type: 2}
+  PlayerData:
+    ModelIdCompleted: 
+  ModelsData:
+  - Id: 0
+    Name: TABOURET
+    Prefab: {fileID: 1180472799407012, guid: 04d272724333e0147b1ede846014705e, type: 2}
+    Size: 4
+    ValidCube:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 1, z: 0}
+    - {x: 0, y: 2, z: 0}
+    - {x: 0, y: 3, z: 0}
+    - {x: 3, y: 0, z: 0}
+    - {x: 3, y: 1, z: 0}
+    - {x: 3, y: 2, z: 0}
+    - {x: 3, y: 3, z: 0}
+    - {x: 0, y: 0, z: 3}
+    - {x: 0, y: 1, z: 3}
+    - {x: 0, y: 2, z: 3}
+    - {x: 0, y: 3, z: 3}
+    - {x: 3, y: 0, z: 3}
+    - {x: 3, y: 1, z: 3}
+    - {x: 3, y: 2, z: 3}
+    - {x: 3, y: 3, z: 3}
+    - {x: 1, y: 3, z: 0}
+    - {x: 2, y: 3, z: 0}
+    - {x: 0, y: 3, z: 1}
+    - {x: 1, y: 3, z: 1}
+    - {x: 2, y: 3, z: 1}
+    - {x: 3, y: 3, z: 1}
+    - {x: 0, y: 3, z: 2}
+    - {x: 1, y: 3, z: 2}
+    - {x: 2, y: 3, z: 2}
+    - {x: 3, y: 3, z: 2}
+    - {x: 1, y: 3, z: 3}
+    - {x: 2, y: 3, z: 3}
+  - Id: 1
+    Name: ROBINET
+    Prefab: {fileID: 1658705502108426, guid: 472479b817217cb4599c48e3a759de4c, type: 2}
+    Size: 8
+    ValidCube:
+    - {x: 4, y: 0, z: 2}
+    - {x: 4, y: 2, z: 2}
+    - {x: 4, y: 4, z: 2}
+    - {x: 4, y: 6, z: 2}
+    - {x: 4, y: 7, z: 3}
+    - {x: 4, y: 7, z: 4}
+    - {x: 4, y: 6, z: 5}
+    - {x: 4, y: 5, z: 6}
+    - {x: 4, y: 4, z: 6}
+    - {x: 4, y: 3, z: 6}
+    - {x: 4, y: 2, z: 6}
+    - {x: 4, y: 1, z: 6}
+    - {x: 4, y: 0, z: 6}
+    - {x: 3, y: 0, z: 6}
+    - {x: 5, y: 0, z: 6}
+    - {x: 1, y: 1, z: 6}
+    - {x: 2, y: 1, z: 6}
+    - {x: 3, y: 1, z: 6}
+    - {x: 5, y: 1, z: 6}
+    - {x: 6, y: 1, z: 6}
+    - {x: 7, y: 1, z: 6}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,7 +266,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115608}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2274d535eeab38d4e843f3cd949f6ddb, type: 3}
   m_Name: 
@@ -221,8 +279,11 @@ MonoBehaviour:
   UseFov: 0
   MinFov: 50
   MaxFov: 70
+  MoveSensibility: 2
   SpeedRotation: 220
-  UnityRemote: 1
+  DelayPressed: 0.5
+  UnityRemote: 0
+  mCurrentDelayPressed: 0
 --- !u!114 &11467256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -348,3 +409,4 @@ MonoBehaviour:
   DefaultMat: {fileID: 2100000, guid: f2dbd2d6f6ea0cb4d9264ea30f87094a, type: 2}
   LockMat: {fileID: 2100000, guid: a5dc4e9b111a14a4e881d162e9cf7d7f, type: 2}
   WrongMat: {fileID: 2100000, guid: 18c8f5e49295707409526d8fb52f77c9, type: 2}
+  SelectedMat: {fileID: 2100000, guid: 60088e38536d03f4c806b119f3cf0535, type: 2}

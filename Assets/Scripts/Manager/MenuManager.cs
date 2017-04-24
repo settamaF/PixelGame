@@ -25,21 +25,21 @@ public class Menu
 
 public class MenuManager : MonoBehaviour 
 {
-	#region Script Parameters
+#region Script Parameters
 	public List<Menu> Menus;
-	public GameObject Hud;
-	#endregion
+	public HUD Hud;
+#endregion
 
-	#region Static
+#region Static
 	private static MenuManager mInstance = null;
 	public static MenuManager Get { get { return mInstance; } }
-	#endregion
+#endregion
 
-	#region Properties
+#region Properties
 
-	#endregion
+#endregion
 
-	#region Fields
+#region Fields
 	// Const -------------------------------------------------------------------
 
 	// Static ------------------------------------------------------------------
@@ -47,9 +47,9 @@ public class MenuManager : MonoBehaviour
 	// Private -----------------------------------------------------------------
 	private Stack<GameObject>	mActions;
 	private Menu				mActualMenu;
-	#endregion
+#endregion
 
-	#region Unity Methods
+#region Unity Methods
 	void Awake()
 	{
 		if (mInstance != null && mInstance != this)
@@ -65,10 +65,11 @@ public class MenuManager : MonoBehaviour
 	void Start () 
 	{
 		ShowMainMenu();
+		InputManager.Get.enabled = false;
 	}
-	#endregion
+#endregion
 
-	#region Methods
+#region Methods
 
 	public void ShowMainMenu()
 	{
@@ -86,6 +87,8 @@ public class MenuManager : MonoBehaviour
 
 		if (menu == null)
 			return;
+		if(Hud)
+			ShowHUD(false);
 		menu.Object.SetActive(true);
 		Game.Get.PauseGame(true);
 		mActualMenu = menu;
@@ -93,7 +96,7 @@ public class MenuManager : MonoBehaviour
 
 	public void ShowHUD(bool value)
 	{
-		Hud.SetActive(value);
+		Hud.gameObject.SetActive(value);
 	}
 
 	public void ShowOption()
@@ -125,7 +128,14 @@ public class MenuManager : MonoBehaviour
 
 	public void ShowDefeat()
 	{
+		var menu = GetMenu(eMenuType.Defeat);
 
+		if(menu == null)
+			return;
+		if(Hud)
+			ShowHUD(false);
+		menu.Object.SetActive(true);
+		mActualMenu = menu;
 	}
 
 	public void CloseMenu()
@@ -136,12 +146,16 @@ public class MenuManager : MonoBehaviour
 		if (mActualMenu.Type == eMenuType.Pause)
 		{
 			Game.Get.PauseGame(false);
+			if(Hud)
+				ShowHUD(true);
 		}
 	}
 
 	public void LaunchGame()
 	{
-		Game.Get.StartGame();
+		int id = Random.Range(0, GameData.Get.ModelsData.Count);
+
+		Game.Get.StartGame(GameData.Get.ModelsData[id]);
 		if (Hud)
 			ShowHUD(true);
 		CloseMenu();
@@ -149,7 +163,10 @@ public class MenuManager : MonoBehaviour
 
 	public void RestartGame()
 	{
-		LaunchGame();
+		Game.Get.RestartGame();
+		if(Hud)
+			ShowHUD(true);
+		CloseMenu();
 	}
 
 	public void ReturnToMainMenu()
@@ -161,9 +178,9 @@ public class MenuManager : MonoBehaviour
 			ShowHUD(false);
 	}
 
-	#endregion
+#endregion
 
-	#region Implementation
+#region Implementation
 	Menu GetMenu(eMenuType type)
 	{
 		foreach(var menu in Menus)
@@ -174,6 +191,23 @@ public class MenuManager : MonoBehaviour
 		Debug.LogError(type.ToString() + " not found in menu manager");
 		return null;
 	}
+#endregion
 
-	#endregion
+#region Debug
+	public void LaunchModel(int id)
+	{
+		GameData.ModelData model;
+		if(id < GameData.Get.ModelsData.Count)
+			model = GameData.Get.ModelsData[id];
+		else
+		{
+			Debug.LogError("No model with id: " + id + " available. Load default model", this);
+			model = GameData.Get.ModelsData[0];
+		}
+		Game.Get.StartGame(model);
+		if(Hud)
+			ShowHUD(true);
+		CloseMenu();
+	}
+#endregion
 }

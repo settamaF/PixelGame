@@ -26,7 +26,10 @@ public class RotateObject : MonoBehaviour
 	// Private -----------------------------------------------------------------
 	private bool		mResetRotation = false;
 	private Quaternion	mFromRotation;
+	private Vector3		mFromCameraPos;
+	private Vector3		mToCameraPos;
 	private float		mCurrentTime = 0;
+	private Camera		mMainCamera;
 #endregion
 
 #region Unity Methods
@@ -38,6 +41,10 @@ public class RotateObject : MonoBehaviour
 			mResetRotation = true;
 			mFromRotation = transform.rotation;
 		}
+		mMainCamera = Camera.main;
+		mToCameraPos = InputManager.Get.DefaultCameraPosition;
+		mFromCameraPos = mMainCamera.transform.position;
+
 	}
 	void Update()
 	{
@@ -45,9 +52,9 @@ public class RotateObject : MonoBehaviour
 		{
 			mCurrentTime += Time.deltaTime / Duration;
 			transform.rotation = Quaternion.Lerp(mFromRotation, Quaternion.identity, mCurrentTime);
-			if(transform.rotation == Quaternion.identity)
+			mMainCamera.transform.position = Vector3.Lerp(mFromCameraPos, mToCameraPos, mCurrentTime);
+			if(mCurrentTime >= 1)
 				mResetRotation = false;
-			
 		}
 		else
 			transform.Rotate(Vector3.down, Speed * Mathf.Deg2Rad, Space.World);

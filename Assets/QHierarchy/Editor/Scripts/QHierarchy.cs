@@ -194,7 +194,7 @@ namespace qtools.qhierarchy
                     Renderer renderer = gameObject.GetComponent<Renderer>();
                     if (renderer != null)
                     {
-                        EditorUtility.SetSelectedWireframeHidden(renderer, true);
+						EditorUtility.SetSelectedRenderState(renderer, EditorSelectedRenderState.Hidden);
                     }
                 }
             }
@@ -1058,8 +1058,9 @@ namespace qtools.qhierarchy
                     {
                         if (!wireframeHiddenObjectsContains)
                         {
-                            EditorUtility.SetSelectedWireframeHidden(renderer, true);
-                            SceneView.RepaintAll();
+							EditorUtility.SetSelectedRenderState(renderer, EditorSelectedRenderState.Hidden);
+
+							SceneView.RepaintAll();
 
                             if (objectList == null) objectList = createObjectListInScene(gameObject.scene);
                             Undo.RecordObject(objectList, "renderer visibility change");
@@ -1071,8 +1072,9 @@ namespace qtools.qhierarchy
                     {                                               
                         if (wireframeHiddenObjectsContains)
                         {
-                            EditorUtility.SetSelectedWireframeHidden(renderer, false);
-                            SceneView.RepaintAll();
+							EditorUtility.SetSelectedRenderState(renderer, EditorSelectedRenderState.Wireframe);
+
+							SceneView.RepaintAll();
 
                             if (objectList != null)
                             {

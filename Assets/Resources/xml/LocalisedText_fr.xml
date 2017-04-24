@@ -31,6 +31,22 @@
 			<Id>VICTORY</Id>
 			<Text>Victoire</Text>
 		</TextItem>
+		<TextItem>
+			<Id>DEFEAT</Id>
+			<Text>Défaite</Text>
+		</TextItem>
+		<TextItem>
+			<Id>CONTINUE</Id>
+			<Text>Continuer</Text>
+		</TextItem>
+		<TextItem>
+			<Id>MODEL1</Id>
+			<Text>Modéle 1</Text>
+		</TextItem>
+		<TextItem>
+			<Id>MODEL2</Id>
+			<Text>Modéle 2</Text>
+		</TextItem>
 		<!-- Text with argument 
 		<TextItem>
 			<Id>KILL_MONSTER</Id>
