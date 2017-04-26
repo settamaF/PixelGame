@@ -82,6 +82,7 @@ public class InputManager : MonoBehaviour
 	public void ClearSelectedObj()
 	{
 		SelectedObj.Clear();
+		MenuManager.Get.Hud.EnableSelectionBtn(false);
 		mSelectObj = false;
 		mCurrentDelayPressed = 0;
 	}
@@ -176,6 +177,8 @@ public class InputManager : MonoBehaviour
 				if(cube.State == Cube.EState.Enable)
 				{
 					SelectedObj.Add(hit.collider.gameObject);
+					if(SelectedObj.Count == 1)
+						MenuManager.Get.Hud.EnableSelectionBtn(true);
 					cube.SetState(Cube.EState.Selected);
 				}
 			}
@@ -191,6 +194,7 @@ public class InputManager : MonoBehaviour
 				cube.SetState(Cube.EState.Enable);
 		}
 		SelectedObj.Clear();
+		MenuManager.Get.Hud.EnableSelectionBtn(false);
 		mCurrentDelayPressed = 0;
 	}
 
@@ -256,7 +260,6 @@ public class InputManager : MonoBehaviour
 				if(!mSelectObj)
 				{
 					mSelectObj = true;
-					Game.Get.SetSelectionAction();
 				}
 				SelectCube(touch.position);
 			}
@@ -302,7 +305,6 @@ public class InputManager : MonoBehaviour
 				if(!mSelectObj)
 				{
 					mSelectObj = true;
-					Game.Get.SetSelectionAction();
 				}
 				SelectCube(Input.mousePosition);
 			}

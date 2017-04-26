@@ -95,9 +95,10 @@ public class Game : MonoBehaviour
 		this.enabled = false;
 	}
 
-	public void MakeAction(List<GameObject> objs)
+	public void MakeAction(List<GameObject> objs, EAction action)
 	{
-		Debug.Log("Action");
+		var prevAction = CurrentAction;
+		CurrentAction = action;
 		foreach(var obj in objs)
 		{
 			if(this.enabled == false)
@@ -105,6 +106,7 @@ public class Game : MonoBehaviour
 			MakeAction(obj);
 		}
 		InputManager.Get.ClearSelectedObj();
+		CurrentAction = prevAction;
 	}
 
 	public void MakeAction(GameObject obj)
@@ -133,11 +135,6 @@ public class Game : MonoBehaviour
 		{
 			Defeat();
 		}
-	}
-
-	public void SetSelectionAction()
-	{
-		MenuManager.Get.Hud.SetSelectionAction();
 	}
 #endregion
 

@@ -4,19 +4,15 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using System.Collections.Generic;
 
 //******************************************************************************
 
 public class HUD : MonoBehaviour 
 {
 #region Script Parameters
-	public Button	DestroyBtn;
-	public Button	ShieldBtn;
-#endregion
-
-#region Static
-
+	public List<Button> DefaultBtns;
+	public List<Button> SelectionBtns;
 #endregion
 
 #region Properties
@@ -24,48 +20,52 @@ public class HUD : MonoBehaviour
 #endregion
 
 #region Fields
-	// Const -------------------------------------------------------------------
-
-	// Static ------------------------------------------------------------------
-
 	// Private -----------------------------------------------------------------
-
-#endregion
-
-#region Unity Methods
 
 #endregion
 
 #region Methods
 	public void SetDestroyAction()
 	{
-		if(Game.Get.CurrentAction == Game.EAction.Selection)
-		{
-			Game.Get.CurrentAction = Game.EAction.Destroy;
-			Game.Get.MakeAction(InputManager.Get.SelectedObj);
-		}
-		DestroyBtn.interactable = false;
-		ShieldBtn.interactable = true;
 		Game.Get.CurrentAction = Game.EAction.Destroy;
 	}
 
 	public void SetShieldAction()
 	{
-		if(Game.Get.CurrentAction == Game.EAction.Selection)
-		{
-			Game.Get.CurrentAction = Game.EAction.Shield;
-			Game.Get.MakeAction(InputManager.Get.SelectedObj);
-		}
-		DestroyBtn.interactable = true;
-		ShieldBtn.interactable = false;
 		Game.Get.CurrentAction = Game.EAction.Shield;
 	}
 
 	public void SetSelectionAction()
 	{
-		DestroyBtn.interactable = true;
-		ShieldBtn.interactable = true;
 		Game.Get.CurrentAction = Game.EAction.Selection;
+	}
+
+	public void DestroySelection()
+	{
+		Game.Get.MakeAction(InputManager.Get.SelectedObj, Game.EAction.Destroy);
+		EnableSelectionBtn(false);
+	}
+
+	public void LockSelection()
+	{
+		Game.Get.MakeAction(InputManager.Get.SelectedObj, Game.EAction.Shield);
+		EnableSelectionBtn(false);
+	}
+
+	public void EnableSelectionBtn(bool enable)
+	{
+		if(SelectionBtns == null || SelectionBtns.Count <= 0)
+			return;
+		foreach(var btn in SelectionBtns)
+		{
+			btn.gameObject.SetActive(enable);
+		}
+		if(DefaultBtns == null || DefaultBtns.Count <= 0)
+			return;
+		foreach(var btn in DefaultBtns)
+		{
+			btn.gameObject.SetActive(!enable);
+		}
 	}
 #endregion
 
