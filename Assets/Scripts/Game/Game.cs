@@ -69,7 +69,7 @@ public class Game : MonoBehaviour
 		CurrentModel = model;
 		mCurrentBlock.Init(model);
 		InputManager.Get.Block = mCurrentBlock;
-		MenuManager.Get.Hud.SetDestroyAction();
+		MenuManager.Get.Hud.ResetAction();
 		mCurrentLife = LIFEBYDEFAULT;
 		MenuManager.Get.Hud.UpdateHeart(mCurrentLife);
 	}
@@ -106,7 +106,8 @@ public class Game : MonoBehaviour
 				return;
 			MakeAction(obj);
 		}
-		InputManager.Get.ClearSelectedObj();
+		InputManager.Get.SelectedObj.Clear();
+		MenuManager.Get.Hud.EnableSelectionBtn(false);
 		CurrentAction = prevAction;
 	}
 
@@ -122,6 +123,9 @@ public class Game : MonoBehaviour
 					break;
 				case EAction.Shield:
 					mCurrentBlock.LockCube(cube.Position);
+					break;
+				case EAction.Selection:
+					InputManager.Get.SelectCube(cube);
 					break;
 				default:
 					break;

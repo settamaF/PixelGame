@@ -14,6 +14,7 @@ public class HUD : MonoBehaviour
 	public List<Button> DefaultBtns;
 	public List<Button> SelectionBtns;
 	public List<Image>  Hearts;
+	public SwitchButton SwitchBtn;
 #endregion
 
 #region Properties
@@ -26,14 +27,23 @@ public class HUD : MonoBehaviour
 #endregion
 
 #region Methods
+	public void ResetAction()
+	{
+		Game.Get.CurrentAction = Game.EAction.Destroy;
+		InputManager.Get.ResetSelectedObj();
+		SwitchBtn.OnPress(DefaultBtns[0]);
+	}
+
 	public void SetDestroyAction()
 	{
 		Game.Get.CurrentAction = Game.EAction.Destroy;
+		InputManager.Get.ResetSelectedObj();
 	}
 
 	public void SetShieldAction()
 	{
 		Game.Get.CurrentAction = Game.EAction.Shield;
+		InputManager.Get.ResetSelectedObj();
 	}
 
 	public void SetSelectionAction()

@@ -338,32 +338,4 @@ public class Block : MonoBehaviour
 		InputManager.Get.DefaultCameraPosition = pos;
 	}
 #endregion
-
-#region Debug
-	void Update()
-	{
-		if(Input.GetKeyDown(KeyCode.Space))
-		{
-			DisableNotValideCube();
-		}
-	}
-
-	void DisableNotValideCube()
-	{
-		for(int z = 0; z < mMaxSize; z++)
-		{
-			for(int x = 0; x < mMaxSize; x++)
-			{
-				for(int y = 0; y < mMaxSize; y++)
-				{
-					if(!mCubes[x, y ,z].Valid)
-					{
-						mCubes[x, y, z].SetState(Cube.EState.Disable);
-					}
-				}
-			}
-		}
-	}
-
-#endregion
 }

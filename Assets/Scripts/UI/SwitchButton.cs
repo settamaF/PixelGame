@@ -28,11 +28,7 @@ public class SwitchButton : MonoBehaviour
 #endregion
 
 #region Unity Methods
-	void Awake()
-	{
-		if(Buttons != null && Buttons.Count > 0)
-			OnPress(Buttons[0]);
-	}
+
 #endregion
 
 #region Methods

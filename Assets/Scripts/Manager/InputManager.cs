@@ -11,17 +11,19 @@ public class InputManager : MonoBehaviour
 {
 #region Script Parameters
 	public Block	Block;
-	public Camera	Camera;
 	[Header("Sensitivity")]
 	public float	ZoomSpeed = 0.5f;
+	public float	MoveSensibility = 2f;
+	public float	SpeedRotation = 200f;
+	public float	DelayPressed = 0.5f;
+	public float    DelayDoubleTap = 0.2f;
+	[Header("Camera param")]
+	public Camera	Camera;
 	public float	CameraMinPos = -4f;
 	public float	CameraMaxPos = -20f;
 	public bool		UseFov = false;
 	public float	MinFov = 50f;
 	public float	MaxFov = 70f;
-	public float	MoveSensibility = 2f;
-	public float	SpeedRotation = 200f;
-	public float	DelayPressed = 0.5f;
 	[Header("Unity remote")]
 	public bool		UnityRemote = true;
 #endregion
@@ -39,11 +41,12 @@ public class InputManager : MonoBehaviour
 	public static InputManager		Get { get { return mInstance; } }
 
 	// Private -----------------------------------------------------------------
-	private bool				mMoved = false;
-	private bool				mSelectObj = false;
-	private bool				mOnUI = false;
-	private Vector2				mStartPos;
-	public float				mCurrentDelayPressed;
+	private bool					mMoved = false;
+	private bool					mSelectObj = false;
+	private bool					mOnUI = false;
+	private Vector2					mStartPos;
+	public float					mCurrentDelayPressed;
+	private GameObject				mPrevObjSelected;
 #endregion
 
 #region Unity Methods
@@ -79,12 +82,37 @@ public class InputManager : MonoBehaviour
 #endregion
 
 #region Methods
-	public void ClearSelectedObj()
+	public void ResetSelectedObj()
 	{
+		foreach(var obj in SelectedObj)
+		{
+			var cube = obj.GetComponent<Cube>();
+			if(cube)
+				cube.SetState(Cube.EState.Enable);
+		}
 		SelectedObj.Clear();
 		MenuManager.Get.Hud.EnableSelectionBtn(false);
-		mSelectObj = false;
-		mCurrentDelayPressed = 0;
+	}
+
+	public void SelectCube(Cube cube)
+	{
+		var obj = cube.gameObject;
+		if(cube.State == Cube.EState.Selected && obj != mPrevObjSelected)
+		{
+			SelectedObj.Remove(obj);
+			if(SelectedObj.Count == 0)
+				MenuManager.Get.Hud.EnableSelectionBtn(false);
+			cube.SetState();
+			mPrevObjSelected = obj;
+		}
+		else if(cube.State == Cube.EState.Enable && obj != mPrevObjSelected)
+		{
+			SelectedObj.Add(obj);
+			if(SelectedObj.Count == 1)
+				MenuManager.Get.Hud.EnableSelectionBtn(true);
+			cube.SetState(Cube.EState.Selected);
+			mPrevObjSelected = obj;
+		}
 	}
 #endregion
 
@@ -144,6 +172,7 @@ public class InputManager : MonoBehaviour
 			Camera.transform.position = pos;
 		}
 	}
+
 	bool RotateBlock(Vector2 position)
 	{
 		if(mStartPos == position || Vector3.Distance(mStartPos, position) <= MoveSensibility)
@@ -165,40 +194,20 @@ public class InputManager : MonoBehaviour
 		}
 	}
 
-	void SelectCube(Vector2 position)
+	void SelectObj(Vector2 position)
 	{
 		Ray ray = Camera.main.ScreenPointToRay(position);
 		RaycastHit hit;
 		if(Physics.Raycast(ray, out hit))
 		{
-			var cube = hit.collider.gameObject.GetComponent<Cube>();
-			if(cube)
-			{
-				if(cube.State == Cube.EState.Enable)
-				{
-					SelectedObj.Add(hit.collider.gameObject);
-					if(SelectedObj.Count == 1)
-						MenuManager.Get.Hud.EnableSelectionBtn(true);
-					cube.SetState(Cube.EState.Selected);
-				}
-			}
-		}
-	}
-
-	void ResetSelectedObj()
-	{
-		foreach(var obj in SelectedObj)
-		{
+			var obj = hit.collider.gameObject;
 			var cube = obj.GetComponent<Cube>();
 			if(cube)
-				cube.SetState(Cube.EState.Enable);
+				SelectCube(cube);
 		}
-		SelectedObj.Clear();
-		MenuManager.Get.Hud.EnableSelectionBtn(false);
-		mCurrentDelayPressed = 0;
 	}
 
-	private bool IsPointerOverUIObject()
+	bool IsPointerOverUIObject()
 	{
 		PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
 		eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
@@ -261,7 +270,7 @@ public class InputManager : MonoBehaviour
 				{
 					mSelectObj = true;
 				}
-				SelectCube(touch.position);
+				SelectObj(touch.position);
 			}
 		}
 	}
@@ -272,20 +281,16 @@ public class InputManager : MonoBehaviour
 			return;
 		if(Input.GetMouseButtonDown(0))
 		{
-			Debug.Log("Mouse input");
-
+			if(IsPointerOverUIObject())
+			{
+				mOnUI = true;
+				return;
+			}
 			mStartPos = Input.mousePosition;
 			mMoved = false;
-			if(IsPointerOverUIObject())
-				mOnUI = true;
-			else
-			{
-				if(!mSelectObj)
-				{
-					ResetSelectedObj();
-					mCurrentDelayPressed = 0;
-				}
-			}
+			mSelectObj = false;
+			mPrevObjSelected = null;
+			mCurrentDelayPressed = 0;
 		}
 		else if(Input.GetMouseButton(0))
 		{
@@ -299,15 +304,17 @@ public class InputManager : MonoBehaviour
 					mMoved = true;
 				}
 			}
-			mCurrentDelayPressed += Time.deltaTime;
-			if(mMoved == false && mCurrentDelayPressed >= DelayPressed)
+
+			if(!mMoved && !mSelectObj && Game.Get.CurrentAction == Game.EAction.Selection)
 			{
-				if(!mSelectObj)
+				mCurrentDelayPressed += Time.deltaTime;
+				if(mCurrentDelayPressed >= DelayPressed)
 				{
 					mSelectObj = true;
 				}
-				SelectCube(Input.mousePosition);
 			}
+			if(mSelectObj)
+				SelectObj(Input.mousePosition);
 		}
 		else if(Input.GetMouseButtonUp(0))
 		{
@@ -316,9 +323,8 @@ public class InputManager : MonoBehaviour
 				mOnUI = false;
 				return;
 			}
-			if(mMoved == false && SelectedObj.Count == 0)
+			if(!mMoved && !mSelectObj)
 				TouchCube(Input.mousePosition);
-			mOnUI = false;
 		}
 	}
 #endregion
