@@ -45,8 +45,9 @@ public class InputManager : MonoBehaviour
 	private bool					mSelectObj = false;
 	private bool					mOnUI = false;
 	private Vector2					mStartPos;
-	public float					mCurrentDelayPressed;
+	private float					mCurrentDelayPressed;
 	private GameObject				mPrevObjSelected;
+	private float					mLastTapTime;
 #endregion
 
 #region Unity Methods
@@ -112,6 +113,33 @@ public class InputManager : MonoBehaviour
 				MenuManager.Get.Hud.EnableSelectionBtn(true);
 			cube.SetState(Cube.EState.Selected);
 			mPrevObjSelected = obj;
+		}
+	}
+
+	public void SelectCube(Cube cube, Cube.EState state)
+	{
+		var obj = cube.gameObject;
+		if(cube.State == Cube.EState.Selected || cube.State == Cube.EState.Enable)
+		{
+			if(cube.State != state)
+			{
+				if(state == Cube.EState.Selected)
+				{
+					SelectedObj.Add(obj);
+					if(SelectedObj.Count == 1)
+						MenuManager.Get.Hud.EnableSelectionBtn(true);
+					cube.SetState(Cube.EState.Selected);
+					mPrevObjSelected = obj;
+				}
+				else
+				{
+					SelectedObj.Remove(obj);
+					if(SelectedObj.Count == 0)
+						MenuManager.Get.Hud.EnableSelectionBtn(false);
+					cube.SetState();
+					mPrevObjSelected = obj;
+				}
+			}
 		}
 	}
 #endregion
@@ -323,9 +351,64 @@ public class InputManager : MonoBehaviour
 				mOnUI = false;
 				return;
 			}
+			if(Game.Get.CurrentAction == Game.EAction.Selection)
+			{
+				var deltaTime = Time.time - mLastTapTime;
+				mLastTapTime = Time.time;
+				if(deltaTime <= DelayDoubleTap)
+				{
+					SelectCubeInLine(Input.mousePosition);
+					return;
+				}
+			}
 			if(!mMoved && !mSelectObj)
 				TouchCube(Input.mousePosition);
 		}
 	}
+
+	void SelectCubeInLine(Vector2 position)
+	{
+		Ray ray = Camera.main.ScreenPointToRay(position);
+		RaycastHit hit;
+		if(Physics.Raycast(ray, out hit))
+		{
+			var cube = hit.collider.GetComponent<Cube>();
+			if(cube)
+			{
+				Cube.ESide side = cube.GetHitFace(hit);
+				Vector3 dir = Vector3.zero;
+				switch(side)
+				{
+					case Cube.ESide.Front:
+						dir = Vector3.forward;
+						break;
+					case Cube.ESide.Back:
+						dir = Vector3.back;
+						break;
+					case Cube.ESide.Left:
+						dir = Vector3.right;
+						break;
+					case Cube.ESide.Right:
+						dir = Vector3.left;
+						break;
+					case Cube.ESide.Top:
+						dir = Vector3.down;
+						break;
+					case Cube.ESide.Down:
+						dir = Vector3.up;
+						break;
+					default:
+						return;
+				}
+				var cubes = cube.Parent.SelectCubes(cube.Position, dir);
+				foreach(var cubeInList in cubes)
+				{
+					SelectCube(cubeInList, cube.State);
+				}
+			}
+		}
+	}
+
+
 #endregion
 }

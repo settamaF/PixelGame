@@ -177,6 +177,19 @@ public class Block : MonoBehaviour
 		}
 		return false;
 	}
+
+	public List<Cube> SelectCubes(Vector3 pos, Vector3 dir)
+	{
+		Vector3 currentPos = pos + dir;
+		List<Cube> ret = new List<Cube>();
+
+		while(!IsOutOfRange(currentPos, 0, mMaxSize))
+		{
+			ret.Add(mCubes[(int)currentPos.x, (int)currentPos.y, (int)currentPos.z]);
+			currentPos += dir;
+		}
+		return ret;
+	}
 #endregion
 
 #region Implementation
@@ -336,6 +349,17 @@ public class Block : MonoBehaviour
 		pos.z = Game.DEFAULTPOSZCAMERA;
 		cam.transform.position = pos;
 		InputManager.Get.DefaultCameraPosition = pos;
+	}
+
+	bool IsOutOfRange(Vector3 pos, float min, float max)
+	{
+		if(pos.x < min || pos.x >= max)
+			return true;
+		if(pos.y < min || pos.y >= max)
+			return true;
+		if(pos.z < min || pos.z >= max)
+			return true;
+		return false;
 	}
 #endregion
 }

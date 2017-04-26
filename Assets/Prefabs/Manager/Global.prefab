@@ -272,18 +272,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Block: {fileID: 0}
-  Camera: {fileID: 0}
   ZoomSpeed: 0.05
+  MoveSensibility: 2
+  SpeedRotation: 220
+  DelayPressed: 0.4
+  DelayDoubleTap: 0.2
+  Camera: {fileID: 0}
   CameraMinPos: -4
   CameraMaxPos: -20
   UseFov: 0
   MinFov: 50
   MaxFov: 70
-  MoveSensibility: 2
-  SpeedRotation: 220
-  DelayPressed: 0.5
   UnityRemote: 0
-  mCurrentDelayPressed: 0
 --- !u!114 &11467256
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -45,7 +45,6 @@ public class MenuManager : MonoBehaviour
 	// Static ------------------------------------------------------------------
 
 	// Private -----------------------------------------------------------------
-	private Stack<GameObject>	mActions;
 	private Menu				mActualMenu;
 #endregion
 

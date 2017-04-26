@@ -13,7 +13,8 @@ public class Cube : MonoBehaviour
 	[System.Serializable]
 	public enum ESide
 	{
-		Top = 0,
+		Nothing = 0,
+		Top,
 		Down,
 		Left,
 		Right,
@@ -142,6 +143,24 @@ public class Cube : MonoBehaviour
 		gameObject.SetActive(Visibility);
 	}
 
+	public ESide GetHitFace(RaycastHit hit)
+	{
+		int triIndex = hit.triangleIndex;
+		if(triIndex == 0 || triIndex == 1)
+			return ESide.Front;
+		else if(triIndex == 2 || triIndex == 3)
+			return ESide.Back;
+		else if(triIndex == 4 || triIndex == 5)
+			return ESide.Left;
+		else if(triIndex == 6 || triIndex == 7)
+			return ESide.Down;
+		else if(triIndex == 8 || triIndex == 9)
+			return ESide.Right;
+		else if(triIndex == 10 || triIndex == 11)
+			return ESide.Top;
+		return ESide.Nothing;
+	}
+
 #endregion
 
 #region Implementation
@@ -167,45 +186,4 @@ public class Cube : MonoBehaviour
 		sideRenderer.material.mainTexture = tex;
 	}
 #endregion
-
-//#region Debug
-//	Vector3 screenPoint;
-//	Vector3 offset;
-//	bool move;
-//	/* move cube */
-//	void OnMouseDown()
-//	{
-//		screenPoint = Camera.main.WorldToScreenPoint(transform.position);
-
-//		offset = transform.position - Camera.main.ScreenToWorldPoint(
-//			new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-//		move = false;
-//	}
-
-//	void OnMouseDrag()
-//	{
-//		Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-
-//		Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-//		//move Cube
-//		//transform.position = curPosition;
-
-//		//Rotate Block
-//		Vector3 curDirection = curScreenPoint - screenPoint;
-//		if(Mathf.Abs(curDirection.x) > 50 || Mathf.Abs(curDirection.y) > 50)
-//		{
-//			Parent.transform.Rotate(Vector3.up, -curDirection.x * 1 * Mathf.Deg2Rad, Space.World);
-//			Parent.transform.Rotate(Vector3.right, curDirection.y * 1 * Mathf.Deg2Rad, Space.World);
-//			move = true;
-//		}
-	
-//	}
-
-//	/* Destroy cube */
-//	void OnMouseUp()
-//	{
-//		if(!move)
-//			Parent.DestroyCube(Position);
-//	}
-//#endregion
 }

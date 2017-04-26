@@ -63,6 +63,11 @@ public class HUD : MonoBehaviour
 		EnableSelectionBtn(false);
 	}
 
+	public void UnSelect()
+	{
+		InputManager.Get.ResetSelectedObj();
+	}
+
 	public void EnableSelectionBtn(bool enable)
 	{
 		if(SelectionBtns == null || SelectionBtns.Count <= 0)

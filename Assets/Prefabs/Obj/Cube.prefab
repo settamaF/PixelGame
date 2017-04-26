@@ -88,7 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4052215823545724}
   - component: {fileID: 33888332440933198}
-  - component: {fileID: 65647204916604562}
+  - component: {fileID: 64726935437703310}
   - component: {fileID: 23581891868986522}
   - component: {fileID: 114704422558705066}
   m_Layer: 0
@@ -502,8 +502,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1953927104679450}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65647204916604562
-BoxCollider:
+--- !u!64 &64726935437703310
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -512,8 +512,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: e9b9eea3338b78744b773dee48a913c7, type: 3}
 --- !u!114 &114704422558705066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -526,15 +528,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sides:
-  - SidePos: 0
-    FaceRenderer: {fileID: 23249202133781258}
   - SidePos: 1
-    FaceRenderer: {fileID: 23390711324929226}
+    FaceRenderer: {fileID: 23249202133781258}
   - SidePos: 2
-    FaceRenderer: {fileID: 23055980694015412}
+    FaceRenderer: {fileID: 23390711324929226}
   - SidePos: 3
-    FaceRenderer: {fileID: 23891824504708936}
+    FaceRenderer: {fileID: 23055980694015412}
   - SidePos: 4
-    FaceRenderer: {fileID: 23268543870225078}
+    FaceRenderer: {fileID: 23891824504708936}
   - SidePos: 5
+    FaceRenderer: {fileID: 23268543870225078}
+  - SidePos: 6
     FaceRenderer: {fileID: 23016135577908978}
