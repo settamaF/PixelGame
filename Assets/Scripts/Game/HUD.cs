@@ -13,6 +13,7 @@ public class HUD : MonoBehaviour
 #region Script Parameters
 	public List<Button> DefaultBtns;
 	public List<Button> SelectionBtns;
+	public List<Image>  Hearts;
 #endregion
 
 #region Properties
@@ -65,6 +66,23 @@ public class HUD : MonoBehaviour
 		foreach(var btn in DefaultBtns)
 		{
 			btn.gameObject.SetActive(!enable);
+		}
+	}
+
+	public void UpdateHeart(int heart)
+	{
+		if(Hearts == null || Hearts.Count == 0)
+			return;
+		for(int i = 0; i < Hearts.Count; i++)
+		{
+			if(i < heart)
+			{
+				Hearts[i].transform.GetChild(0).gameObject.SetActive(true);
+			}
+			else
+			{
+				Hearts[i].transform.GetChild(0).gameObject.SetActive(false);
+			}
 		}
 	}
 #endregion

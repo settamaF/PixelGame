@@ -71,6 +71,7 @@ public class Game : MonoBehaviour
 		InputManager.Get.Block = mCurrentBlock;
 		MenuManager.Get.Hud.SetDestroyAction();
 		mCurrentLife = LIFEBYDEFAULT;
+		MenuManager.Get.Hud.UpdateHeart(mCurrentLife);
 	}
 
 	public void PauseGame(bool value)
@@ -131,6 +132,7 @@ public class Game : MonoBehaviour
 	public void RemoveLife()
 	{
 		mCurrentLife--;
+		MenuManager.Get.Hud.UpdateHeart(mCurrentLife);
 		if(mCurrentLife == 0)
 		{
 			Defeat();
