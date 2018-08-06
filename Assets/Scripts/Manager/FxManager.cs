@@ -16,25 +16,25 @@ public enum FX
 
 public class FxManager : MonoBehaviour
 {
-#region Static
-	private static FxManager mInstance;
-	public static FxManager Get { get{ return mInstance; } }
-#endregion
-	
 #region Script Parameters
 	public List<GameObject>	FX;
 #endregion
-	
+
+#region Fields
+	// Static ------------------------------------------------------------------
+	public static FxManager Get { get; private set; }
+#endregion
+
 #region Unity Methods
 	void Awake()
 	{
-		if(mInstance != null && mInstance != this) 
+		if(Get != null && Get != this) 
 		{
-			UnityEngine.Debug.Log("FxManager - we were instantiating a second copy of TextManager, so destroying this instance");
+			Debug.Log("FxManager - we were instantiating a second copy of TextManager, so destroying this instance");
 			DestroyImmediate(this.gameObject, true);
 			return;
 		}
-		mInstance = this;
+		Get = this;
 		Debug.Log("FxManager loaded", this);
 	}
 #endregion

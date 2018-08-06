@@ -28,7 +28,7 @@ public class Game : MonoBehaviour
 
 #region Fields
 	//const
-	private const int			LIFEBYDEFAULT = -1; //Infiny
+	private const int			LIFEBYDEFAULT = 3; //Infiny = -1
 	public const float			DEFAULTPOSZCAMERA = -10f;
 	// static
 	private static Game			mInstance;

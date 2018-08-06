@@ -8,9 +8,8 @@ using UnityEngine;
 public class Global : MonoBehaviour
 {
 #region Static
-		private static 	Global    		mInstance = null;	
-
-		public static 	Global 			Get	{ get { return mInstance; } }
+	private static 	Global    		mInstance = null;
+	public static 	Global 			Get	{ get { return mInstance; } }
 #endregion
 
 #region Properties
@@ -25,7 +24,6 @@ public class Global : MonoBehaviour
 			DestroyImmediate (this.gameObject, true);
 			return;
 		}
-
 		DontDestroyOnLoad (this);
 		mInstance = this;
 		Debug.Log("Global class loaded", this);
