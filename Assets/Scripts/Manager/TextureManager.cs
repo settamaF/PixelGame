@@ -32,6 +32,7 @@ public class TextureManager : MonoBehaviour
 	public Material LockMat;
 	public Material WrongMat;
 	public Material SelectedMat;
+	public Material TransparentMat;
 #endregion
 
 #region Properties

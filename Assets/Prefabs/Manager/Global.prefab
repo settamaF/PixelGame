@@ -410,3 +410,4 @@ MonoBehaviour:
   LockMat: {fileID: 2100000, guid: a5dc4e9b111a14a4e881d162e9cf7d7f, type: 2}
   WrongMat: {fileID: 2100000, guid: 18c8f5e49295707409526d8fb52f77c9, type: 2}
   SelectedMat: {fileID: 2100000, guid: 60088e38536d03f4c806b119f3cf0535, type: 2}
+  TransparentMat: {fileID: 2100000, guid: 7dd2c10b2e0d1b24fb2c7976bf13ccd4, type: 2}
