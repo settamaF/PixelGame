@@ -28,14 +28,15 @@ public class FxManager : MonoBehaviour
 #region Unity Methods
 	void Awake()
 	{
-		if(Get != null && Get != this) 
+		if (Get != null && Get != this)
 		{
-			Debug.Log("FxManager - we were instantiating a second copy of TextManager, so destroying this instance");
-			DestroyImmediate(this.gameObject, true);
+			Destroy(gameObject);
 			return;
 		}
-		Get = this;
-		Debug.Log("FxManager loaded", this);
+		if (Get == null)
+			Get = this;
+		if (transform.parent == null)
+			DontDestroyOnLoad(gameObject);
 	}
 #endregion
 	

@@ -29,8 +29,7 @@ public class SoundManager : MonoBehaviour
 	#endregion
 
 	#region Static
-	private static SoundManager mInstance = null;
-	public static SoundManager Get { get { return mInstance; } }
+	public static SoundManager Get { get; private set; }
 	#endregion
 
 	#region Properties
@@ -49,15 +48,15 @@ public class SoundManager : MonoBehaviour
 	#region Unity Methods
 	void Awake()
 	{
-		if (mInstance != null && mInstance != this)
+		if (Get != null && Get != this)
 		{
-			DestroyImmediate(this, true);
+			Destroy(gameObject);
 			return;
 		}
+		if (Get == null)
+			Get = this;
 		if (transform.parent == null)
-			DontDestroyOnLoad(this);
-		mInstance = this;
-		Debug.Log("SoundManager loaded", this);
+			DontDestroyOnLoad(gameObject);
 	}
 	#endregion
 

@@ -22,7 +22,7 @@ public class Block : MonoBehaviour
 	// Private -----------------------------------------------------------------
 	private Cube[,,]					mCubes;
 	private Vector3						mCubeSize;
-	private int							mMaxSize;
+	private Vector3Int						mMaxSize;
 	private Dictionary<Vector2, float>	mFrontValidCube;
 	private Dictionary<Vector2, float>	mLefttValidCube;
 	private Dictionary<Vector2, float>	mTopValidCube;
@@ -44,20 +44,20 @@ public class Block : MonoBehaviour
 #endregion
 
 #region Methods
-	public void Init(GameData.ModelData model)
+	public void Init(Model model)
 	{
 		mGlobalPosition = Vector3.zero;
-		mCubes = new Cube[model.Size, model.Size, model.Size];
+		mCubes = new Cube[model.Size.x, model.Size.y, model.Size.z];
 		mFrontValidCube = new Dictionary<Vector2, float>();
 		mLefttValidCube = new Dictionary<Vector2, float>();
 		mTopValidCube = new Dictionary<Vector2, float>();
 		mCubeSize = CubePrefab.GetComponent<Renderer>().bounds.size;
 		mMaxSize = model.Size;
-		for(int z = 0; z < mMaxSize; z++)
+		for(int z = 0; z < mMaxSize.z; z++)
 		{
-			for(int x = 0; x < mMaxSize; x++)
+			for(int x = 0; x < mMaxSize.x; x++)
 			{
-				for(int y = 0; y < mMaxSize; y++)
+				for(int y = 0; y < mMaxSize.y; y++)
 				{
 					mCubes[x, y, z] = GenerateCube(x, y, z);
 				}
@@ -76,11 +76,11 @@ public class Block : MonoBehaviour
 
 	public void DisableAllCube()
 	{
-		for(int z = 0; z < mMaxSize; z++)
+		for(int z = 0; z < mMaxSize.z; z++)
 		{
-			for(int x = 0; x < mMaxSize; x++)
+			for(int x = 0; x < mMaxSize.x; x++)
 			{
-				for(int y = 0; y < mMaxSize; y++)
+				for(int y = 0; y < mMaxSize.y; y++)
 				{
 					mCubes[x, y, z].SetVisibility(false);
 				}
@@ -112,7 +112,7 @@ public class Block : MonoBehaviour
 				SetNumberOnFace(x, y, z - 1, Cube.ESide.Back);
 		}
 		//Back cube
-		if(z + 1 < mMaxSize)
+		if(z + 1 < mMaxSize.z)
 		{
 			cube = mCubes[x, y, z + 1];
 			if(cube.State != Cube.EState.Disable)
@@ -126,14 +126,14 @@ public class Block : MonoBehaviour
 				SetNumberOnFace(x - 1, y, z, Cube.ESide.Right);
 		}
 		//Right cube
-		if(x + 1 < mMaxSize)
+		if(x + 1 < mMaxSize.x)
 		{
 			cube = mCubes[x + 1, y, z];
 			if(cube.State != Cube.EState.Disable)
 				SetNumberOnFace(x + 1, y, z, Cube.ESide.Left);
 		}
 		//Top cube
-		if(y + 1 < mMaxSize)
+		if(y + 1 < mMaxSize.y)
 		{
 			cube = mCubes[x, y + 1, z];
 			if(cube.State != Cube.EState.Disable)
@@ -221,30 +221,30 @@ public class Block : MonoBehaviour
 	void SetNumberOnFace()
 	{
 		//Front-Back
-		for(int x = 0; x < mMaxSize; x++)
+		for(int x = 0; x < mMaxSize.x; x++)
 		{
-			for(int y = 0; y < mMaxSize; y++)
+			for(int y = 0; y < mMaxSize.y; y++)
 			{
 				SetNumberOnFace(x, y, 0, Cube.ESide.Front);
-				SetNumberOnFace(x, y, mMaxSize - 1, Cube.ESide.Back);
+				SetNumberOnFace(x, y, mMaxSize.z - 1, Cube.ESide.Back);
 			}
 		}
 		//Left-Right
-		for(int y = 0; y < mMaxSize; y++)
+		for(int y = 0; y < mMaxSize.y; y++)
 		{
-			for(int z = 0; z < mMaxSize; z++)
+			for(int z = 0; z < mMaxSize.z; z++)
 			{
 				SetNumberOnFace(0, y, z, Cube.ESide.Left);
-				SetNumberOnFace(mMaxSize - 1, y, z, Cube.ESide.Right);
+				SetNumberOnFace(mMaxSize.x - 1, y, z, Cube.ESide.Right);
 			}
 		}
 		//Top-Down
-		for(int x = 0; x < mMaxSize; x++)
+		for(int x = 0; x < mMaxSize.x; x++)
 		{
-			for(int z = 0; z < mMaxSize; z++)
+			for(int z = 0; z < mMaxSize.z; z++)
 			{
 				SetNumberOnFace(x, 0, z, Cube.ESide.Down);
-				SetNumberOnFace(x, mMaxSize - 1, z, Cube.ESide.Top);
+				SetNumberOnFace(x, mMaxSize.y - 1, z, Cube.ESide.Top);
 			}
 		}
 	}
@@ -277,47 +277,45 @@ public class Block : MonoBehaviour
 	{
 		float validCount = 0;
 		//Front-Back
-		for(int x = 0; x < mMaxSize; x++)
+		for(int x = 0; x < mMaxSize.x; x++)
 		{
-			for(int y = 0; y < mMaxSize; y++)
+			for(int y = 0; y < mMaxSize.y; y++)
 			{
-				validCount = CountValidCube(x, y, 0, Vector3.forward);
+				validCount = CountValidCube(x, y, 0, Vector3.forward, mMaxSize.z);
 				mFrontValidCube.Add(new Vector2(x, y), validCount);
 			}
 		}
 		//Left-Right
-		for(int y = 0; y < mMaxSize; y++)
+		for(int y = 0; y < mMaxSize.y; y++)
 		{
-			for(int z = 0; z < mMaxSize; z++)
+			for(int z = 0; z < mMaxSize.z; z++)
 			{
-				validCount = CountValidCube(0, y, z, Vector3.right);
+				validCount = CountValidCube(0, y, z, Vector3.right, mMaxSize.x);
 				mLefttValidCube.Add(new Vector2(y, z), validCount);
 			}
 		}
 		//Top-Down
-		for(int x = 0; x < mMaxSize; x++)
+		for(int x = 0; x < mMaxSize.x; x++)
 		{
-			for(int z = 0; z < mMaxSize; z++)
+			for(int z = 0; z < mMaxSize.z; z++)
 			{
-				validCount = CountValidCube(x, 0, z, Vector3.up);
+				validCount = CountValidCube(x, 0, z, Vector3.up, mMaxSize.y);
 				mTopValidCube.Add(new Vector2(x, z), validCount);
 			}
 		}
 	}
 
-	float CountValidCube(int x, int y, int z, Vector3 dir)
+	float CountValidCube(int x, int y, int z, Vector3 dir, int maxSize)
 	{
 		bool space = false;
 		float count = 0;
 		Vector3 pos = new Vector3(x, y, z);
-		for(int i=0; i<mMaxSize; i++)
+		for (int i = 0; i < maxSize; i++)
 		{
 			var tmpPos = pos + dir * i;
 			var cube = mCubes[(int)tmpPos.x, (int)tmpPos.y, (int)tmpPos.z];
-			if(cube && cube.Valid)
-			{
+			if (cube && cube.Valid)
 				count++;
-			}
 			else
 			{
 				if(count != 0)
@@ -331,12 +329,10 @@ public class Block : MonoBehaviour
 	{
 		Vector3 centerPosition;
 
-		centerPosition = mGlobalPosition / (mMaxSize * mMaxSize * mMaxSize);
+		centerPosition = mGlobalPosition / (mMaxSize.x * mMaxSize.y * mMaxSize.z);
 		transform.position = centerPosition;
 		foreach(var cube in mCubes)
-		{
 			cube.transform.SetParent(transform);
-		}
 	}
 
 	void CenterCamera()
@@ -351,13 +347,13 @@ public class Block : MonoBehaviour
 		InputManager.Get.DefaultCameraPosition = pos;
 	}
 
-	bool IsOutOfRange(Vector3 pos, float min, float max)
+	bool IsOutOfRange(Vector3 pos, float min, Vector3Int max)
 	{
-		if(pos.x < min || pos.x >= max)
+		if(pos.x < min || pos.x >= max.x)
 			return true;
-		if(pos.y < min || pos.y >= max)
+		if(pos.y < min || pos.y >= max.y)
 			return true;
-		if(pos.z < min || pos.z >= max)
+		if(pos.z < min || pos.z >= max.z)
 			return true;
 		return false;
 	}

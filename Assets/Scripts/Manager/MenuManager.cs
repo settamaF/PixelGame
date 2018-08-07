@@ -3,6 +3,7 @@
 //******************************************************************************
 
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 //******************************************************************************
@@ -31,8 +32,7 @@ public class MenuManager : MonoBehaviour
 #endregion
 
 #region Static
-	private static MenuManager mInstance = null;
-	public static MenuManager Get { get { return mInstance; } }
+	public static MenuManager Get { get; private set; }
 #endregion
 
 #region Properties
@@ -51,17 +51,18 @@ public class MenuManager : MonoBehaviour
 #region Unity Methods
 	void Awake()
 	{
-		if (mInstance != null && mInstance != this)
+		if (Get != null && Get != this)
 		{
-			DestroyImmediate(this, true);
+			Destroy(gameObject);
 			return;
 		}
-		DontDestroyOnLoad(this);
-		mInstance = this;
-		Debug.Log("MenuManager loaded", this);
+		if (Get == null)
+			Get = this;
+		if (transform.parent == null)
+			DontDestroyOnLoad(gameObject);
 	}
 
-	void Start () 
+	void Start ()
 	{
 		ShowMainMenu();
 		InputManager.Get.enabled = false;
@@ -190,18 +191,26 @@ public class MenuManager : MonoBehaviour
 		Debug.LogError(type.ToString() + " not found in menu manager");
 		return null;
 	}
-#endregion
+	#endregion
 
-#region Debug
+	#region Debug
+	public InputField DebugIdInputField;
+
+	public void LaunchModel()
+	{
+		LaunchModel(int.Parse(DebugIdInputField.text));
+	}
+
 	public void LaunchModel(int id)
 	{
-		GameData.ModelData model;
-		if(id < GameData.Get.ModelsData.Count)
+		Model model;
+		if (id < GameData.Get.ModelsData.Count)
 			model = GameData.Get.ModelsData[id];
 		else
 		{
 			Debug.LogError("No model with id: " + id + " available. Load default model", this);
-			model = GameData.Get.ModelsData[0];
+			DebugIdInputField.text = "";
+			return;
 		}
 		Game.Get.StartGame(model);
 		if(Hud)

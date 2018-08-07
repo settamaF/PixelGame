@@ -22,8 +22,8 @@ public class Game : MonoBehaviour
 #endregion
 
 #region Properties
-	public GameData.ModelData	CurrentModel { get; set; }
-	public EAction				CurrentAction { get; set; }
+	public Model	CurrentModel { get; set; }
+	public EAction	CurrentAction { get; set; }
 #endregion
 
 #region Fields
@@ -57,7 +57,7 @@ public class Game : MonoBehaviour
 
 #region Methods
 
-	public void StartGame(GameData.ModelData model)
+	public void StartGame(Model model)
 	{
 		if(mCurrentBlock)
 			Destroy(mCurrentBlock.gameObject);

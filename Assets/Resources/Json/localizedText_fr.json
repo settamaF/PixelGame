@@ -1,0 +1,9 @@
+﻿{"Items":[{"Key":"[PAUSE]","Value":"Pause"},
+{"Key":"[PLAY]","Value":"Jouer"},
+{"Key":"[QUIT]","Value":"Quitter"},
+{"Key":"[RETRY]","Value":"Recommencer"},
+{"Key":"[MENU]","Value":"Menu"},
+{"Key":"[DEFEAT]","Value":"Défaite"},
+{"Key":"[VICTORY]","Value":"Victoire"},
+{"Key":"[CONTINUE]","Value":"Reprendre"},
+{"Key":"[PLAYDEBUG]","Value":"[PLAYDEBUG]"}]}

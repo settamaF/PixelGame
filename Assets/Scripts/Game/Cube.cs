@@ -52,6 +52,7 @@ public class Cube : MonoBehaviour
 
 #region Fields
 	// Private -----------------------------------------------------------------
+	private CubeTexture mCubeTexture;
 #endregion
 
 #region Unity Methods
@@ -62,9 +63,9 @@ public class Cube : MonoBehaviour
 		Visibility = true;
 		EnableAllSide(false);
 	}
-#endregion
+	#endregion
 
-#region Methods
+	#region Methods
 
 	public void SetValid()
 	{
@@ -109,28 +110,31 @@ public class Cube : MonoBehaviour
 		if(State == state)
 			return;
 		State = state;
-		var texManager = TextureManager.Get;
-		if(texManager == null)
+		if (mCubeTexture == null)
 		{
-			Debug.LogError("No textureManager loaded", this);
-			return;
+			mCubeTexture = GameData.Get.CubeTextureData;
+			if (mCubeTexture == null)
+			{
+				Debug.LogError("No textureManager loaded", this);
+				return;
+			}
 		}
-		switch(State)
+		switch (State)
 		{
 			case EState.Enable:
-				GetComponent<Renderer>().material = texManager.DefaultMat;
+				GetComponent<Renderer>().material = mCubeTexture.DefaultMat;
 				break;
 			case EState.Disable:
 				gameObject.SetActive(false);
 				break;
 			case EState.LockWithError:
-				GetComponent<Renderer>().material = texManager.WrongMat;
+				GetComponent<Renderer>().material = mCubeTexture.WrongMat;
 				break;
 			case EState.Lock:
-				GetComponent<Renderer>().material = texManager.LockMat;
+				GetComponent<Renderer>().material = mCubeTexture.LockMat;
 				break;
 			case EState.Selected:
-				GetComponent<Renderer>().material = texManager.SelectedMat;
+				GetComponent<Renderer>().material = mCubeTexture.SelectedMat;
 				break;
 		}
 	}
@@ -176,13 +180,16 @@ public class Cube : MonoBehaviour
 
 	private void SetTextureSide(Renderer sideRenderer, float number)
 	{
-		var texManager = TextureManager.Get;
-		if(texManager == null)
+		if(mCubeTexture == null)
 		{
-			Debug.LogError("No textureManager loaded", this);
-			return;
+			mCubeTexture = GameData.Get.CubeTextureData;
+			if(mCubeTexture == null)
+			{
+				Debug.LogError("No textureManager loaded", this);
+				return;
+			}
 		}
-		var tex = texManager.GetTexture((int)number, number - (int)number > 0 ? true: false);
+		var tex = mCubeTexture.GetTexture((int)number, number - (int)number > 0 ? true: false);
 		sideRenderer.material.mainTexture = tex;
 	}
 #endregion

@@ -13,41 +13,32 @@ public class GameData : MonoBehaviour
 	[System.Serializable]
 	public class SaveData
 	{
-		public int[]		ModelIdCompleted;
+		public int[]	ModelIdCompleted;
 	}
 
-	[System.Serializable]
-	public class ModelData
-	{
-		public int			Id;
-		public string		Name;
-		public GameObject	Prefab;
-		public int			Size;
-		public Vector3[]	ValidCube;
-	}
-
-#region Static
-	private static GameData mInstance;
-	public static GameData Get { get{ return mInstance; } }
+#region Static	
+	public static GameData Get { get; private set; }
 #endregion
 
 #region Fields
 	// Public ------------------------------------------------------------------
 	public SaveData		PlayerData;
-	public List<ModelData>	ModelsData;
+	public CubeTexture	CubeTextureData;
+	public List<Model>	ModelsData;
 #endregion
 
 #region Unity Methods
 	void Awake()
 	{
-		if(mInstance != null && mInstance != this)
+		if (Get != null && Get != this)
 		{
-			DestroyImmediate(this.gameObject, true);
+			Destroy(gameObject);
 			return;
 		}
-		
-		DontDestroyOnLoad (this);
-		mInstance = this;
+		if (Get == null)
+			Get = this;
+		if (transform.parent == null)
+			DontDestroyOnLoad(gameObject);
 		LoadPlayerData();
 		//if(ModelsData == null || ModelsData.Count == 0)
 		//	LoadModels();

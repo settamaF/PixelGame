@@ -37,8 +37,7 @@ public class InputManager : MonoBehaviour
 	// Const -------------------------------------------------------------------
 
 	// Static ------------------------------------------------------------------
-	private static InputManager		mInstance;
-	public static InputManager		Get { get { return mInstance; } }
+	public static InputManager		Get { get; private set; }
 
 	// Private -----------------------------------------------------------------
 	private bool					mMoved = false;
@@ -53,13 +52,15 @@ public class InputManager : MonoBehaviour
 #region Unity Methods
 	void Awake()
 	{
-		if(mInstance != null && mInstance != this)
+		if (Get != null && Get != this)
 		{
-			DestroyImmediate(this, true);
+			Destroy(gameObject);
 			return;
 		}
-		mInstance = this;
-		Debug.Log("InputManager loaded", this);
+		if (Get == null)
+			Get = this;
+		if (transform.parent == null)
+			DontDestroyOnLoad(gameObject);
 		Camera = Camera.main;
 		SelectedObj = new List<GameObject>();
 	}

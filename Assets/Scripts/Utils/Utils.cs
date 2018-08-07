@@ -27,4 +27,13 @@ public class Utils : MonoBehaviour
 		
 		return stringBuilder.ToString();
 	}
+
+	public static string TextToKey(string value)
+	{
+		if (string.IsNullOrEmpty(value))
+			return "";
+		if (value[0] == '[' && value[value.Length - 1] == ']')
+			return value;
+		return "[" + value.ToUpper() + "]";
+	}
 }
