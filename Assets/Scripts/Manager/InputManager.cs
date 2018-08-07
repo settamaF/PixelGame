@@ -42,7 +42,6 @@ public class InputManager : MonoBehaviour
 	// Private -----------------------------------------------------------------
 	private bool					mMoved = false;
 	private bool					mSelectObj = false;
-	private bool					mOnUI = false;
 	private Vector2					mStartPos;
 	private float					mCurrentDelayPressed;
 	private GameObject				mPrevObjSelected;
@@ -67,13 +66,17 @@ public class InputManager : MonoBehaviour
 
 	void Update()
 	{
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
+		if (UnityRemote)
+		{
+			TouchInput();
+			return;
+		}
+		WindowsInput();
+#elif UNITY_IPHONE || UNITY_ANDROID
 		TouchInput();
 #else
-		if(UnityRemote)
-			TouchInput();
-		else
-			WindowsInput();
+		WindowsInput();
 #endif
 	}
 
@@ -249,58 +252,41 @@ public class InputManager : MonoBehaviour
 	{
 		if(ZoomCamera(true))
 			return;
-		if(Input.touchCount > 0)
+		if (Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
-
-			switch(touch.phase)
+			switch (touch.phase)
 			{
 				case TouchPhase.Began:
 					mStartPos = touch.position;
 					mMoved = false;
-					if(IsPointerOverUIObject())
-					{
-						mOnUI = true;
-						Debug.Log("On UI");
-					}
-					else
-					{
-						if(!mSelectObj)
-						{
-							mCurrentDelayPressed = -touch.deltaTime;
-							ResetSelectedObj();
-						}
-					}
 					break;
-
 				case TouchPhase.Moved:
-					if(mOnUI)
-						return;
-					if(mSelectObj)
+					if (mSelectObj)
 						break;
-					if(RotateBlock(touch.position))
+					if (RotateBlock(touch.position))
 					{
 						mStartPos = touch.position;
 						mMoved = true;
 					}
 					break;
 				case TouchPhase.Ended:
-					if(mMoved == false && SelectedObj.Count == 0 && mOnUI == false)
+					if (mMoved == false)
 						TouchCube(touch.position);
-					mOnUI = false;
 					break;
 			}
-			if(mOnUI)
-				return;
+			//Tmp : No double Tap on mobile
 			mCurrentDelayPressed += touch.deltaTime;
-			if(mMoved == false && mCurrentDelayPressed >= DelayPressed)
+			if (mMoved == false && mCurrentDelayPressed >= DelayPressed)
 			{
-				if(!mSelectObj)
-				{
-					mSelectObj = true;
-				}
+				mSelectObj = true;
 				SelectObj(touch.position);
 			}
+		}
+		else
+		{
+			mCurrentDelayPressed = 0;
+			mSelectObj = false;
 		}
 	}
 
@@ -310,11 +296,6 @@ public class InputManager : MonoBehaviour
 			return;
 		if(Input.GetMouseButtonDown(0))
 		{
-			if(IsPointerOverUIObject())
-			{
-				mOnUI = true;
-				return;
-			}
 			mStartPos = Input.mousePosition;
 			mMoved = false;
 			mSelectObj = false;
@@ -323,8 +304,6 @@ public class InputManager : MonoBehaviour
 		}
 		else if(Input.GetMouseButton(0))
 		{
-			if(mOnUI)
-				return;
 			if(!mSelectObj)
 			{
 				if(RotateBlock(Input.mousePosition))
@@ -347,11 +326,6 @@ public class InputManager : MonoBehaviour
 		}
 		else if(Input.GetMouseButtonUp(0))
 		{
-			if(mOnUI)
-			{
-				mOnUI = false;
-				return;
-			}
 			if(Game.Get.CurrentAction == Game.EAction.Selection)
 			{
 				var deltaTime = Time.time - mLastTapTime;
