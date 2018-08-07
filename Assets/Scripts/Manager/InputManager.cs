@@ -271,13 +271,22 @@ public class InputManager : MonoBehaviour
 					}
 					break;
 				case TouchPhase.Ended:
+					if (Game.Get.CurrentAction == Game.EAction.Selection)
+					{
+						var deltaTime = Time.time - mLastTapTime;
+						mLastTapTime = Time.time;
+						if (deltaTime <= DelayDoubleTap)
+						{
+							SelectCubeInLine(Input.mousePosition);
+							return;
+						}
+					}
 					if (mMoved == false)
 						TouchCube(touch.position);
 					break;
 			}
-			//Tmp : No double Tap on mobile
 			mCurrentDelayPressed += touch.deltaTime;
-			if (mMoved == false && mCurrentDelayPressed >= DelayPressed)
+			if (Game.Get.CurrentAction == Game.EAction.Selection && mMoved == false && mCurrentDelayPressed >= DelayPressed)
 			{
 				mSelectObj = true;
 				SelectObj(touch.position);

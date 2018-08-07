@@ -172,6 +172,7 @@ public class Block : MonoBehaviour
 			{
 				Destroy(child.gameObject);
 			}
+			transform.rotation = Quaternion.identity;
 			Instantiate<GameObject>(mModel, transform);
 			return true;
 		}
@@ -315,14 +316,21 @@ public class Block : MonoBehaviour
 			var tmpPos = pos + dir * i;
 			var cube = mCubes[(int)tmpPos.x, (int)tmpPos.y, (int)tmpPos.z];
 			if (cube && cube.Valid)
+			{
+				if (space)
+				{
+					count += 0.5f;
+					space = false;
+				}
 				count++;
+			}
 			else
 			{
-				if(count != 0)
+				if (count != 0 && count - (int)count == 0)
 					space = true;
 			}
 		}
-		return space ? count + 0.5f: count;
+		return count;
 	}
 
 	void SetCenterBlock()
