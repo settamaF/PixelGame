@@ -19,15 +19,15 @@ public class Block : MonoBehaviour
 #endregion
 
 #region Fields
-	// Private -----------------------------------------------------------------
-	private Cube[,,]					mCubes;
-	private Vector3						mCubeSize;
-	private Vector3Int						mMaxSize;
-	private Dictionary<Vector2, float>	mFrontValidCube;
-	private Dictionary<Vector2, float>	mLefttValidCube;
-	private Dictionary<Vector2, float>	mTopValidCube;
-	private Vector3						mGlobalPosition;
-	private GameObject					mModel;
+	// Protected -----------------------------------------------------------------
+	protected Cube[,,]						mCubes;
+	protected Vector3						mCubeSize;
+	protected Vector3Int					mMaxSize;
+	protected Dictionary<Vector2, float>	mFrontValidCube;
+	protected Dictionary<Vector2, float>	mLefttValidCube;
+	protected Dictionary<Vector2, float>	mTopValidCube;
+	protected Vector3						mGlobalPosition;
+	protected GameObject					mModel;
 
 	//temporary
 	private bool						mInitialized = false;
@@ -44,31 +44,23 @@ public class Block : MonoBehaviour
 #endregion
 
 #region Methods
-	public void Init(Model model)
+	public void Initialization()
 	{
 		mGlobalPosition = Vector3.zero;
-		mCubes = new Cube[model.Size.x, model.Size.y, model.Size.z];
 		mFrontValidCube = new Dictionary<Vector2, float>();
 		mLefttValidCube = new Dictionary<Vector2, float>();
 		mTopValidCube = new Dictionary<Vector2, float>();
 		mCubeSize = CubePrefab.GetComponent<Renderer>().bounds.size;
-		mMaxSize = model.Size;
-		for(int z = 0; z < mMaxSize.z; z++)
-		{
-			for(int x = 0; x < mMaxSize.x; x++)
-			{
-				for(int y = 0; y < mMaxSize.y; y++)
-				{
-					mCubes[x, y, z] = GenerateCube(x, y, z);
-				}
-			}
-		}
-		mCurrentNumberCube = mCubes.Length;
-		mNumberValidCube = model.ValidCube.Length;
+	}
+
+	public void Init(Model model)
+	{
+		Initialization();
+		SetupData(model);
+		GenerateBlock(mMaxSize);
 		SetCenterBlock();
 		CenterCamera();
 		SetValidCube(model.ValidCube);
-		mModel = model.Prefab;
 		CountAllValidCube();
 		SetNumberOnFace();
 		mInitialized = true;
@@ -194,6 +186,29 @@ public class Block : MonoBehaviour
 #endregion
 
 #region Implementation
+	protected void SetupData(Model model)
+	{
+		mMaxSize = model.Size;
+		if(model.ValidCube != null)
+			mNumberValidCube = model.ValidCube.Length;
+		mModel = model.Prefab;
+		mCubes = new Cube[mMaxSize.x, mMaxSize.y, mMaxSize.z];
+		mCurrentNumberCube = mCubes.Length;
+	}
+
+	protected void GenerateBlock(Vector3Int maxSize)
+	{
+		for (int z = 0; z < maxSize.z; z++)
+		{
+			for (int x = 0; x < maxSize.x; x++)
+			{
+				for (int y = 0; y < maxSize.y; y++)
+				{
+					mCubes[x, y, z] = GenerateCube(x, y, z);
+				}
+			}
+		}
+	}
 	void SetValidCube(Vector3[] coords)
 	{
 		foreach(var pos in coords)
@@ -202,7 +217,7 @@ public class Block : MonoBehaviour
 		}
 	}
 	
-	Cube GenerateCube(int x, int y, int z)
+	protected Cube GenerateCube(int x, int y, int z)
 	{
 		Vector3 pos = new Vector3()
 		{
@@ -211,7 +226,7 @@ public class Block : MonoBehaviour
 			z = mCubeSize.z * z + mCubeSize.z / 2
 		};
 		mGlobalPosition += pos;
-		var obj = Instantiate<GameObject>(CubePrefab, pos, Quaternion.identity);
+		var obj = Instantiate(CubePrefab, pos, Quaternion.identity);
 		var cube = obj.GetComponent<Cube>();
 		cube.Position = new Vector3(x, y, z);
 		cube.Parent = this;
@@ -333,7 +348,7 @@ public class Block : MonoBehaviour
 		return count;
 	}
 
-	void SetCenterBlock()
+	protected void SetCenterBlock()
 	{
 		Vector3 centerPosition;
 

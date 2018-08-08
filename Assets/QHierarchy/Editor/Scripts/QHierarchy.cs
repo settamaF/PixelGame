@@ -163,8 +163,10 @@ namespace qtools.qhierarchy
             if (settingsWindow != null && settingsWindow.Length > 0) settingsWindow[0].Repaint();  
 
             EditorApplication.hierarchyWindowItemOnGUI += hierarchyWindowItemOnGUIHandler;
-            EditorApplication.playmodeStateChanged += PlayModeChanged;
-            EditorApplication.hierarchyWindowChanged += hierarchyWindowChanged;
+#pragma warning disable CS0618 // Le type ou le membre est obsolète
+			EditorApplication.playmodeStateChanged += PlayModeChanged;
+#pragma warning restore CS0618 // Le type ou le membre est obsolète
+			EditorApplication.hierarchyChanged += hierarchyWindowChanged;
         } 
 
         public static void updateObjectListDictionary()

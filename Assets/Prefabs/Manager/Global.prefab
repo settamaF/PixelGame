@@ -150,6 +150,7 @@ MonoBehaviour:
   ModelsData:
   - {fileID: 11400000, guid: bd38338e686d9da4bbeea0292e3dcc1b, type: 2}
   - {fileID: 11400000, guid: 81e76cd74b67bb74fb708d1416f9390d, type: 2}
+  - {fileID: 11400000, guid: 55aa67fac55949f4a867b477710f1315, type: 2}
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1

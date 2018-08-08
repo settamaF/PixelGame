@@ -31,8 +31,7 @@ public class Game : MonoBehaviour
 	private const int			LIFEBYDEFAULT = 3; //Infiny = -1
 	public const float			DEFAULTPOSZCAMERA = -10f;
 	// static
-	private static Game			mInstance;
-	public static Game			Get { get{ return mInstance; } }
+	public static Game			Get { get; private set; }
 
 	//private
 	private bool				mPause = false;
@@ -43,7 +42,15 @@ public class Game : MonoBehaviour
 #region Unity Methods
 	void Awake()
 	{
-		mInstance = this;
+		if (Get != null && Get != this)
+		{
+			Destroy(gameObject);
+			return;
+		}
+		if (Get == null)
+			Get = this;
+		if (transform.parent == null)
+			DontDestroyOnLoad(gameObject);
 		this.enabled = false;
 	}
 

@@ -5,9 +5,12 @@
 using UnityEngine;
 using System.Security.Cryptography;
 using System.Text;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 //******************************************************************************
-public class Utils : MonoBehaviour 
+public static class Utils
 {
 	// Encrypt the specified plainText using MD5 hash.
 	public static string Encrypt( string plainText )
@@ -36,4 +39,20 @@ public class Utils : MonoBehaviour
 			return value;
 		return "[" + value.ToUpper() + "]";
 	}
+
+#if UNITY_EDITOR
+	/// <summary>
+	/// Create new asset from <see cref="ScriptableObject"/> type with unique name at
+	/// selected folder in project window. Asset creation can be cancelled by pressing
+	/// escape key when asset is initially being named.
+	/// </summary>
+	/// <typeparam name="T">Type of scriptable object.</typeparam>
+	public static T CreateAsset<T>(string pathModel, string fileName) where T : ScriptableObject
+	{
+		var asset = ScriptableObject.CreateInstance<T>();
+		AssetDatabase.CreateAsset(asset, pathModel + "/" + fileName + ".asset");
+		return asset;
+	}
+
+#endif
 }
