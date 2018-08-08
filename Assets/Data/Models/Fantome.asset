@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Fantome
   m_EditorClassIdentifier: 
   Name: Fantome
-  Prefab: {fileID: 1090476734858330, guid: 18307dda3c9dde2438e781d710da2586, type: 2}
+  Prefab: {fileID: 1534650380003320, guid: 18307dda3c9dde2438e781d710da2586, type: 2}
   Size: {x: 9, y: 9, z: 1}
   ValidCube:
   - {x: 0, y: 0, z: 0}
