@@ -9,30 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60144d2baa6d74a4eaa527c9127a0d36, type: 3}
-  m_Name: Robinet
+  m_Name: robinet
   m_EditorClassIdentifier: 
-  Name: ROBINET
-  Prefab: {fileID: 1945691450233030, guid: 472479b817217cb4599c48e3a759de4c, type: 2}
-  Size: {x: 9, y: 9, z: 9}
-  ValidCube:
-  - {x: 4, y: 0, z: 2}
-  - {x: 4, y: 2, z: 2}
-  - {x: 4, y: 4, z: 2}
-  - {x: 4, y: 6, z: 2}
-  - {x: 4, y: 7, z: 3}
-  - {x: 4, y: 7, z: 4}
-  - {x: 4, y: 6, z: 5}
-  - {x: 4, y: 5, z: 6}
-  - {x: 4, y: 4, z: 6}
-  - {x: 4, y: 3, z: 6}
-  - {x: 4, y: 2, z: 6}
-  - {x: 4, y: 1, z: 6}
-  - {x: 4, y: 0, z: 6}
-  - {x: 3, y: 0, z: 6}
-  - {x: 5, y: 0, z: 6}
-  - {x: 1, y: 1, z: 6}
-  - {x: 2, y: 1, z: 6}
-  - {x: 3, y: 1, z: 6}
-  - {x: 5, y: 1, z: 6}
-  - {x: 6, y: 1, z: 6}
-  - {x: 7, y: 1, z: 6}
+  Name: 
+  Prefab: {fileID: 0}
+  Size: {x: 0, y: 0, z: 0}
+  ValidCube: []
