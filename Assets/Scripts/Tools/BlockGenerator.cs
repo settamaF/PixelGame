@@ -2,6 +2,7 @@
 // Authors: Frederic SETTAMA  
 //******************************************************************************
 
+#if UNITY_EDITOR
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -207,3 +208,4 @@ public class BlockGenerator : Block
 	}
 	#endregion
 }
+#endif
