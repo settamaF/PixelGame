@@ -364,7 +364,7 @@ public class Block : MonoBehaviour
 		Vector3 centerPos = trans.localPosition;
 
 		centerPos.x += mMaxSize.x % 2 == 1 ? 0.5f : 0;
-		centerPos.y -= mMaxSize.y / 2;
+		centerPos.y -= (float)mMaxSize.y / 2;
 		centerPos.z += mMaxSize.z % 2 == 1 ? 0.5f : 0;
 
 		trans.localPosition = centerPos;
