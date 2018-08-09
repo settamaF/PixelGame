@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60144d2baa6d74a4eaa527c9127a0d36, type: 3}
+  m_Name: tabouret
+  m_EditorClassIdentifier: 
+  Name: tabouret
+  Prefab: {fileID: 1471681383099190, guid: 04d272724333e0147b1ede846014705e, type: 2}
+  Size: {x: 4, y: 4, z: 4}
+  ValidCube:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 3}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 3}
+  - {x: 0, y: 2, z: 0}
+  - {x: 0, y: 2, z: 3}
+  - {x: 0, y: 3, z: 0}
+  - {x: 0, y: 3, z: 1}
+  - {x: 0, y: 3, z: 2}
+  - {x: 0, y: 3, z: 3}
+  - {x: 1, y: 3, z: 0}
+  - {x: 1, y: 3, z: 1}
+  - {x: 1, y: 3, z: 2}
+  - {x: 1, y: 3, z: 3}
+  - {x: 2, y: 3, z: 0}
+  - {x: 2, y: 3, z: 1}
+  - {x: 2, y: 3, z: 2}
+  - {x: 2, y: 3, z: 3}
+  - {x: 3, y: 0, z: 0}
+  - {x: 3, y: 0, z: 3}
+  - {x: 3, y: 1, z: 0}
+  - {x: 3, y: 1, z: 3}
+  - {x: 3, y: 2, z: 0}
+  - {x: 3, y: 2, z: 3}
+  - {x: 3, y: 3, z: 0}
+  - {x: 3, y: 3, z: 1}
+  - {x: 3, y: 3, z: 2}
+  - {x: 3, y: 3, z: 3}

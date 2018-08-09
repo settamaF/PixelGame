@@ -6,6 +6,7 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class BlockGenerator : Block
@@ -48,12 +49,8 @@ public class BlockGenerator : Block
 		Vector3 Goal = new Vector3(x + mCubeSize.x / 2, y + mCubeSize.y / 2, z + mCubeSize.z / 2);
 		Vector3 Direction = Goal - Start;
 		Direction.Normalize();
-		Debug.Log(Start);
-		Debug.Log(Goal);
-		Debug.Log(Direction);
 		int Itterations = 0;
 		Point = Start;
-
 
 		while (Point != Goal)
 		{
@@ -134,6 +131,9 @@ public class BlockGenerator : Block
 		Initialization();
 		SetupData(ModelToGenerate);
 		GenerateValidCube();
+		EditorUtility.SetDirty(ModelToGenerate);
+		AssetDatabase.SaveAssets();
+		AssetDatabase.Refresh();
 	}
 
 	[Button("GenerateValidCube")]
