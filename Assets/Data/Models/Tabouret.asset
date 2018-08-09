@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Tabouret
   m_EditorClassIdentifier: 
   Name: TABOURET
-  Prefab: {fileID: 1723620645315754, guid: 04d272724333e0147b1ede846014705e, type: 2}
+  Prefab: {fileID: 1471681383099190, guid: 04d272724333e0147b1ede846014705e, type: 2}
   Size: {x: 4, y: 4, z: 4}
   ValidCube:
   - {x: 0, y: 0, z: 0}

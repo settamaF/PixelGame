@@ -22,7 +22,6 @@ public class BlockGenerator : Block
 	#region Fields
 	// Const -------------------------------------------------------------------
 	private const int MAX_SIZE = 9;
-	public float OFFSET_COLLISION = 0.1f;
 	// Static ------------------------------------------------------------------
 
 	// Private -----------------------------------------------------------------
@@ -43,36 +42,43 @@ public class BlockGenerator : Block
 	private GameObject mSphere;
 	private bool IsValidCube(float x ,float y, float z)
 	{
-		Vector3 pos = new Vector3(x > 0 ? x + OFFSET_COLLISION : x,
-								  y > 0 ? y + OFFSET_COLLISION : y,
-								  z > 0 ? z + OFFSET_COLLISION : z);
+		Vector3 Point;
+		Vector3 Start = new Vector3(x + mCubeSize.x / 2, y + mCubeSize.y / 2, mCubeSize.z / 2 - 100);
+		Vector3 Goal = new Vector3(x + mCubeSize.x / 2, y + mCubeSize.y / 2, z + mCubeSize.z / 2);
+		Vector3 Direction = Goal - Start;
+		Direction.Normalize();
+		Debug.Log(Start);
+		Debug.Log(Goal);
+		Debug.Log(Direction);
+		int Itterations = 0;
+		Point = Start;
 
-		Debug.Log(pos);
-		Collider[] hitColliders = Physics.OverlapSphere(pos, 0.001f);
-		int i = 0;
-		if (hitColliders.Length == 0)
-			Debug.Log("Nothing");
-		while (i < hitColliders.Length)
+
+		while (Point != Goal)
 		{
-			Debug.Log(hitColliders[i].name);
-			i++;
+			RaycastHit hit;
+			if (Physics.Linecast(Point, Goal, out hit))
+			{
+				Itterations++;
+				Point = hit.point + (Direction / 100.0f);
+			}
+			else
+				Point = Goal;
 		}
-		mSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-		mSphere.transform.position = pos;
-		mSphere.transform.localScale = new Vector3(.001f, .001f, .001f);
-		return false;
-		if (mSphere != null)
-			DestroyImmediate(mSphere);
-		bool ret;
-		
-		if (Physics.CheckSphere(pos, .001f))
-			ret = true;
-		else
-			ret = false;
-		mSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-		mSphere.transform.position = pos;
-		mSphere.transform.localScale = new Vector3(.001f, .001f, .001f);
-		return ret;
+		while (Point != Start)
+		{
+			RaycastHit hit;
+			if (Physics.Linecast(Point, Start, out hit))
+			{
+				Itterations++;
+				Point = hit.point + (-Direction / 100.0f);
+			}
+			else
+				Point = Start;
+		}
+		if (Itterations % 2 == 0)
+			return false;
+		return true;
 	}
 
 	private void SetupModel()
@@ -111,7 +117,7 @@ public class BlockGenerator : Block
 		var cube = GenerateCube(x, y, z);
 		cube.transform.SetParent(transform);
 		mCubes[x, y, z] = cube;
-		mValidCube.Add(new Vector3(x, y, z));
+		
 	}
 	#endregion
 
@@ -126,6 +132,36 @@ public class BlockGenerator : Block
 		SetupModel();
 		Initialization();
 		SetupData(ModelToGenerate);
+		GenerateValidCube();
+	}
+
+	[Button("GenerateValidCube")]
+	private void GenerateValidCube()
+	{
+		if (ModelToGenerate == null || mModel3D == null)
+		{
+			Debug.LogError("Generation cube is not initialized");
+			return;
+		}
+		mValidCube = new List<Vector3>();
+		for(int x = 0; x < mSizeModel.x; x++)
+		{
+			for (int y = 0; y < mSizeModel.y; y++)
+			{
+				for (int z = 0; z < mSizeModel.z; z++)
+				{
+					if (IsValidCube(x, y, z))
+						mValidCube.Add(new Vector3(x, y, z));
+				}
+			}
+		}
+		if (mValidCube != null && mValidCube.Count > 0)
+		{
+			foreach(var cube in mValidCube)
+				GenerateValidCube((int)cube.x, (int)cube.y, (int)cube.z);
+			ModelToGenerate.ValidCube = mValidCube.ToArray();
+		}
+			
 	}
 
 	[Button("Generation Max Block")]
@@ -139,57 +175,6 @@ public class BlockGenerator : Block
 		SetupData(ModelToGenerate);
 		mModel3D = Instantiate(mModel, transform);
 		SetupPositionModel3d();
-	}
-
-	[Button("GenerateValidCube")]
-	private void GenerateValidCube()
-	{
-		if (ModelToGenerate == null || mModel3D == null)
-		{
-			Debug.LogError("Generation cube is not initialized");
-			return;
-		}
-		mModel3DCollider = mModel3D.GetComponentInChildren<MeshCollider>();
-		if (mModel3DCollider == null)
-		{
-			Debug.LogError("No mesh collider found on the model 3D");
-			return;
-		}
-		mValidCube = new List<Vector3>();
-		for(int x = 0; x < mSizeModel.x; x++)
-		{
-			for (int y = 0; y < mSizeModel.y; y++)
-			{
-				for (int z = 0; z < mSizeModel.z; z++)
-				{
-					if (IsValidCube(x, y, z))
-					{
-						GenerateValidCube(x, y, z);
-						Debug.LogFormat("Ok {0} {1} {2}", x, y, z);
-					}
-					else
-					{
-						Debug.LogFormat("not ok {0} {1} {2}", x, y, z);
-					}
-				}
-			}
-		}
-		if (mValidCube != null && mValidCube.Count > 0)
-			ModelToGenerate.ValidCube = mValidCube.ToArray();
-	}
-
-	public Vector3 Value;
-	[Button("Test")]
-	private void Check()
-	{
-		if (IsValidCube(Value.x, Value.y, Value.z))
-		{
-			Debug.LogFormat("Ok {0} {1} {2}", Value.x, Value.y, Value.z);
-		}
-		else
-		{
-			Debug.LogFormat("not ok {0} {1} {2}", Value.x, Value.y, Value.z);
-		}
 	}
 
 	[Button("Clear Generator")]

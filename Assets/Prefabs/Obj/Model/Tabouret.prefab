@@ -9,34 +9,35 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1180472799407012}
+  m_RootGameObject: {fileID: 1471681383099190}
   m_IsPrefabAsset: 1
---- !u!1 &1180472799407012
+--- !u!1 &1471681383099190
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4754716193596868}
-  - component: {fileID: 114139133531635248}
+  - component: {fileID: 4764240952204224}
+  - component: {fileID: 114636994295408062}
   m_Layer: 0
-  m_Name: Tabouret
+  m_Name: tabouret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1701442044164070
+--- !u!1 &1690739725907142
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4709516010420668}
-  - component: {fileID: 33624354851334348}
-  - component: {fileID: 23931232152068008}
+  - component: {fileID: 4469420924845646}
+  - component: {fileID: 33356301669763742}
+  - component: {fileID: 23966447307906940}
+  - component: {fileID: 64835443552451412}
   m_Layer: 0
   m_Name: default
   m_TagString: Untagged
@@ -44,39 +45,39 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4709516010420668
+--- !u!4 &4469420924845646
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1701442044164070}
+  m_GameObject: {fileID: 1690739725907142}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4754716193596868}
+  m_Father: {fileID: 4764240952204224}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4754716193596868
+--- !u!4 &4764240952204224
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1180472799407012}
+  m_GameObject: {fileID: 1471681383099190}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4709516010420668}
+  - {fileID: 4469420924845646}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23931232152068008
+--- !u!23 &23966447307906940
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1701442044164070}
+  m_GameObject: {fileID: 1690739725907142}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -106,19 +107,33 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33624354851334348
+--- !u!33 &33356301669763742
 MeshFilter:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1701442044164070}
+  m_GameObject: {fileID: 1690739725907142}
   m_Mesh: {fileID: 4300000, guid: 7efca790fd38f414e83823042d640555, type: 3}
---- !u!114 &114139133531635248
+--- !u!64 &64835443552451412
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1690739725907142}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 7efca790fd38f414e83823042d640555, type: 3}
+--- !u!114 &114636994295408062
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1180472799407012}
+  m_GameObject: {fileID: 1471681383099190}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1322e72ef1ea7f241ab84ab22b02ed69, type: 3}

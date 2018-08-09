@@ -113,48 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &1165130668
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4498076770583568, guid: 4c8d80ac598233048ad6b891243629d1, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -1.56
-      objectReference: {fileID: 0}
-    - target: {fileID: 4498076770583568, guid: 4c8d80ac598233048ad6b891243629d1, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4498076770583568, guid: 4c8d80ac598233048ad6b891243629d1, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4498076770583568, guid: 4c8d80ac598233048ad6b891243629d1, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4498076770583568, guid: 4c8d80ac598233048ad6b891243629d1, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4498076770583568, guid: 4c8d80ac598233048ad6b891243629d1, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4498076770583568, guid: 4c8d80ac598233048ad6b891243629d1, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4498076770583568, guid: 4c8d80ac598233048ad6b891243629d1, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4c8d80ac598233048ad6b891243629d1, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &1948883266
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +128,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1948883267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,12 +141,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CubePrefab: {fileID: 1841150211869396, guid: 92beccaf66891184d9148eaaf0528289, type: 2}
-  PrefabModel: {fileID: 1797618616506400, guid: 1e8cf2fd173d55e41ba74deae14bf262,
+  PrefabModel: {fileID: 1241820222980746, guid: aa99563d1d93ae54b843ed1ded0cdad8,
     type: 2}
   PathModel: Assets/Data/Models
-  ModelToGenerate: {fileID: 0}
-  OFFSET_COLLISION: 0
-  Value: {x: 4, y: 5, z: 5}
+  ModelToGenerate: {fileID: 11400000, guid: d7be1088c72ff214e99286da9901a68d, type: 2}
 --- !u!4 &1948883268
 Transform:
   m_ObjectHideFlags: 0

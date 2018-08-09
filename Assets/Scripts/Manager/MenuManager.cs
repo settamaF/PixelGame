@@ -66,6 +66,7 @@ public class MenuManager : MonoBehaviour
 	{
 		ShowMainMenu();
 		InputManager.Get.enabled = false;
+		DebugText.text = "(1/" + GameData.Get.ModelsData.Count + ")";
 	}
 #endregion
 
@@ -193,8 +194,9 @@ public class MenuManager : MonoBehaviour
 	}
 	#endregion
 
-	#region Debug
+#region Debug
 	public InputField DebugIdInputField;
+	public Text       DebugText;
 
 	public void LaunchModel()
 	{
@@ -203,12 +205,13 @@ public class MenuManager : MonoBehaviour
 
 	public void LaunchModel(int id)
 	{
+		id = id - 1;
 		Model model;
 		if (id < GameData.Get.ModelsData.Count)
 			model = GameData.Get.ModelsData[id];
 		else
 		{
-			Debug.LogError("No model with id: " + id + " available. Load default model", this);
+			Debug.LogError("No model with id: " + id + " available.", this);
 			DebugIdInputField.text = "";
 			return;
 		}

@@ -165,7 +165,8 @@ public class Block : MonoBehaviour
 				Destroy(child.gameObject);
 			}
 			transform.rotation = Quaternion.identity;
-			Instantiate<GameObject>(mModel, transform);
+			var obj = Instantiate<GameObject>(mModel, transform);
+			CenterModel3D(obj.transform);
 			return true;
 		}
 		return false;
@@ -356,6 +357,17 @@ public class Block : MonoBehaviour
 		transform.position = centerPosition;
 		foreach(var cube in mCubes)
 			cube.transform.SetParent(transform);
+	}
+	
+	protected void CenterModel3D(Transform trans)
+	{
+		Vector3 centerPos = trans.localPosition;
+
+		centerPos.x += mMaxSize.x % 2 == 1 ? 0.5f : 0;
+		centerPos.y -= mMaxSize.y / 2;
+		centerPos.z += mMaxSize.z % 2 == 1 ? 0.5f : 0;
+
+		trans.localPosition = centerPos;
 	}
 
 	void CenterCamera()
